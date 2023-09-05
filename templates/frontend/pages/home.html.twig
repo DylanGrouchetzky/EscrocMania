@@ -6,7 +6,7 @@
 <div class="row bg-hero-section">
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
         <div class="block-title">
-            <h1 class="title-hero-section">Escromania</h1>
+            <h1 class="title-hero-section font-f-special">Escromania</h1>
         </div>
     </div>
 </div>
@@ -35,25 +35,12 @@
         <div class="row my-5">
         {% set numberTag = 0 %}
         {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
+        {% set imgTag = ['img/bg-rpg.jpg','img/bg-plateform.jpg','img/bg-fps.jpg','img/bg-mmorpg.jpg','img/bg-moba.jpg','img/bg-horreur.jpg',"img/bg-hack.jpg","img/bg-rts.jpg"] %}
         {% for i in 0..7 %}
             <div class="col-3 mb-4">   
-                <a href="" class="link-card">
-                    <div class="
-                    {% if numberTag >= 4 %}
-                        {% if i % 2 == 0 %}
-                            bg-card-red
-                        {% else %}
-                            bg-card-bleu
-                        {% endif %}
-                    {% else %}
-                        {% if i % 2 == 0 %}
-                            bg-card-bleu
-                        {% else %}
-                            bg-card-red 
-                        {% endif %}
-                    {% endif %}
-                    d-flex align-items-center justify-content-center card-tag">
-                        <p style="font-size: 2rem;">{{nameTag[i]}}</p>
+                <a href="" class="link-card" >
+                    <div class="d-flex align-items-center justify-content-center card-tag" style="background-image:url('{{asset(imgTag[i])}}');background-size:cover;background-repeat: no-repeat;">
+                        <p style="font-size: 2rem;padding: 0.3rem 2rem 0.6rem 2rem;background-color: #ffffff5e;">{{nameTag[i]}}</p>
                     </div>
                 </a>
             </div>

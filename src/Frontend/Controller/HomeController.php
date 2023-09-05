@@ -2,7 +2,9 @@
 
 namespace App\Frontend\Controller;
 
+use App\Form\ContactType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -26,6 +28,24 @@ class HomeController extends AbstractController
         return $this->render('frontend/pages/politique_de_confidentialite.html.twig');
     }
 
+    #[Route('/category/{slugCategory}', name: 'view_category')]
+    public function viewAllGame($slugCategory): Response
+    {
+        if ($slugCategory == 'Jeux') {
+            $bg = 'img/bg-game.jpg';
+        }elseif ($slugCategory == 'Goodies') {
+            $bg = 'img/bg-goodies.jpg';
+        }elseif ($slugCategory == 'Poster') {
+            $bg = 'img/bg-poster.jpg';
+        }else{
+            $bg = null;
+        }
+        return $this->render('frontend/pages/category.html.twig',[
+            'category' => $slugCategory,
+            'bg' => $bg,
+        ]);
+    }
+
     #[Route('/jeux/{slugGame}', name: 'view_game')]
     public function viewGame($slugGame): Response
     {
@@ -36,5 +56,14 @@ class HomeController extends AbstractController
     public function searcProduct(): Response
     {
         return $this->render('frontend/pages/search.html.twig');
+    }
+
+    #[Route('/contact', name: 'contact')]
+    public function contactPage(Request $request): Response
+    {
+        $contactForm = $this->createForm(ContactType::class);
+        return $this->render('frontend/pages/contact.html.twig',[
+            'formContact' => $contactForm->createView(),
+        ]);
     }
 }

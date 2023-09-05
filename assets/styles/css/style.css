@@ -1,15 +1,21 @@
+@font-face {
+    font-family: "Ninjabot";
+    src: url("../fonts/ninjabot.ttf") format("TrueType");
+}
+
 :root{
     --color-red: #BA3F1D;
     --color-red-clair: #ba3f1db1;
     --color-blue-clair: #80a1c1ae;
     --color-blue-dark: #80A1C1;
+    --font-special: "Ninjabot";
 
 }
 /* GENERAL */
 
 .w-12r{width: 12rem!important;}
 html,body{overflow-x: hidden;}
-.card-tag{height: 10rem;}
+.card-tag{height: 15rem;}
 .link-card{color: black;text-decoration: none;transition: all ease 1s;}
 .link-card p{transition: all ease 1s;}
 .link-card:hover{color: black; text-decoration: none;transition: all ease 1s;}
@@ -63,19 +69,21 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
     font-size: 8rem;
     margin-bottom: 4rem;
 }
+.font-f-special{font-family: var(--font-special);}
 
 /* TITLE */
 /* PICTURE */
 
 .img-block-presentation{height: 35rem;
     width: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 .img-carousel-last-article{object-fit: cover;height: 15rem;width: 100%;}
 .promo-product{height: 10rem;width: 100%;object-fit: cover;}
 .img-presentation-product{height: 30rem;
     object-fit: cover;
     width: 100%;}
+.img-contact-form{width: 100%;object-fit: cover;}
 
 /* PICTURE */
 /* SPLIDE */
