@@ -1,0 +1,65 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}
+    Accueil
+{% endblock %}
+{% block body %}
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section">Recherche</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <form action="" class="row">
+            <div class="col-3">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected> -- Category -- </option>
+                    <?php
+                    foreach ($categoryProduct as $value) {
+                        ?><option value="#"><?= $value ?></option><?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-3">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected> -- Tag -- </option>
+                    <?php
+                    foreach ($nameTag as $value) {
+                        ?><option value="#"><?= $value ?></option><?php
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="col-3">
+                <input type="text" class="form-control" placeholder="Rechercher par mot clé">
+            </div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-11 mx-auto">
+        <div class="row">
+            {% for i in 1..15 %}
+                <div class="col-3 mb-4">   
+                    <a href="" class="link-card">
+                        <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
+                            <p style="font-size: 2rem;">Produit N°{{i}}</p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+            <div class="col-12 d-flex justify-content-center">
+                <p class="mx-5 pagination-search"><i class="feather-chevron-left"></i></p>
+                <p class="pagination-search"><i class="feather-chevron-right"></i></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
