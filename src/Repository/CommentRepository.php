@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Frontend\Repository;
+namespace App\Repository;
 
-use App\Frontend\Entity\Comment;
+use App\Entity\Comment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

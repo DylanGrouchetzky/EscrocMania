@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Frontend\Entity\Comment;
-use App\Frontend\Entity\Order;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -26,11 +24,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    /**
+     * @var string The hashed password
+     */
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $lastName = null;
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
 
     #[ORM\Column(length: 255)]
     private ?string $pseudo = null;
@@ -39,19 +43,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $birthday = null;
 
     #[ORM\Column]
-    private ?int $discount = null;
+    private ?int $age = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $avatar = null;
 
-    /**
-     * @var string The hashed password
-     */
     #[ORM\Column]
-    private ?string $password = null;
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $modified_at = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Comment::class)]
     private Collection $comments;
+
+    #[ORM\ManyToOne(inversedBy: 'user')]
+    private ?Address $address = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Order::class)]
     private Collection $orders;
@@ -132,26 +139,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getFirstName(): ?string
+    public function getLastname(): ?string
     {
-        return $this->firstName;
+        return $this->lastname;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setLastname(string $lastname): static
     {
-        $this->firstName = $firstName;
+        $this->lastname = $lastname;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getFirstname(): ?string
     {
-        return $this->lastName;
+        return $this->firstname;
     }
 
-    public function setLastName(string $lastName): static
+    public function setFirstname(string $firstname): static
     {
-        $this->lastName = $lastName;
+        $this->firstname = $firstname;
 
         return $this;
     }
@@ -180,14 +187,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getDiscount(): ?int
+    public function getAge(): ?int
     {
-        return $this->discount;
+        return $this->age;
     }
 
-    public function setDiscount(int $discount): static
+    public function setAge(int $age): static
     {
-        $this->discount = $discount;
+        $this->age = $age;
 
         return $this;
     }
@@ -197,9 +204,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->avatar;
     }
 
-    public function setAvatar(string $avatar): static
+    public function setAvatar(?string $avatar): static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getModifiedAt(): ?\DateTimeImmutable
+    {
+        return $this->modified_at;
+    }
+
+    public function setModifiedAt(\DateTimeImmutable $modified_at): static
+    {
+        $this->modified_at = $modified_at;
 
         return $this;
     }
@@ -230,6 +261,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }

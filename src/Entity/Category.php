@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Frontend\Entity;
+namespace App\Entity;
 
-use App\Frontend\Repository\CategoryRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -22,12 +22,15 @@ class Category
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Article::class)]
-    private Collection $articles;
+    #[ORM\Column(length: 255)]
+    private ?string $slug = null;
+
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
+    private Collection $products;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -59,30 +62,42 @@ class Category
         return $this;
     }
 
-    /**
-     * @return Collection<int, Article>
-     */
-    public function getArticles(): Collection
+    public function getSlug(): ?string
     {
-        return $this->articles;
+        return $this->slug;
     }
 
-    public function addArticle(Article $article): static
+    public function setSlug(string $slug): static
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
-            $article->setCategory($this);
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setCategory($this);
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): static
+    public function removeProduct(Product $product): static
     {
-        if ($this->articles->removeElement($article)) {
+        if ($this->products->removeElement($product)) {
             // set the owning side to null (unless already changed)
-            if ($article->getCategory() === $this) {
-                $article->setCategory(null);
+            if ($product->getCategory() === $this) {
+                $product->setCategory(null);
             }
         }
 

@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Frontend\Repository;
+namespace App\Repository;
 
-use App\Frontend\Entity\Row;
+use App\Entity\RowOrder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Row>
+ * @extends ServiceEntityRepository<RowOrder>
  *
- * @method Row|null find($id, $lockMode = null, $lockVersion = null)
- * @method Row|null findOneBy(array $criteria, array $orderBy = null)
- * @method Row[]    findAll()
- * @method Row[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method RowOrder|null find($id, $lockMode = null, $lockVersion = null)
+ * @method RowOrder|null findOneBy(array $criteria, array $orderBy = null)
+ * @method RowOrder[]    findAll()
+ * @method RowOrder[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class RowRepository extends ServiceEntityRepository
+class RowOrderRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Row::class);
+        parent::__construct($registry, RowOrder::class);
     }
 
 //    /**
-//     * @return Row[] Returns an array of Row objects
+//     * @return RowOrder[] Returns an array of RowOrder objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class RowRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Row
+//    public function findOneBySomeField($value): ?RowOrder
 //    {
 //        return $this->createQueryBuilder('r')
 //            ->andWhere('r.exampleField = :val')

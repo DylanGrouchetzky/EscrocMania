@@ -1,12 +1,10 @@
 <?php
 
-namespace App\Frontend\Entity;
+namespace App\Entity;
 
-use App\Frontend\Repository\OrderRepository;
-use App\Entity\User;
+use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
@@ -21,18 +19,18 @@ class Order
     #[ORM\Column]
     private ?int $step = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $date = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?User $user = null;
 
-    #[ORM\OneToMany(mappedBy: 'orderRow', targetEntity: Row::class)]
-    private Collection $orderRows;
+    #[ORM\OneToMany(mappedBy: 'basketOrder', targetEntity: RowOrder::class)]
+    private Collection $rowOrders;
 
     public function __construct()
     {
-        $this->orderRows = new ArrayCollection();
+        $this->rowOrders = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,14 +50,14 @@ class Order
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->date;
+        return $this->created_at;
     }
 
-    public function setDate(\DateTimeInterface $date): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->date = $date;
+        $this->created_at = $created_at;
 
         return $this;
     }
@@ -77,29 +75,29 @@ class Order
     }
 
     /**
-     * @return Collection<int, Row>
+     * @return Collection<int, RowOrder>
      */
-    public function getOrderRows(): Collection
+    public function getRowOrders(): Collection
     {
-        return $this->orderRows;
+        return $this->rowOrders;
     }
 
-    public function addOrderRow(Row $orderRow): static
+    public function addRowOrder(RowOrder $rowOrder): static
     {
-        if (!$this->orderRows->contains($orderRow)) {
-            $this->orderRows->add($orderRow);
-            $orderRow->setOrderRow($this);
+        if (!$this->rowOrders->contains($rowOrder)) {
+            $this->rowOrders->add($rowOrder);
+            $rowOrder->setBasketOrder($this);
         }
 
         return $this;
     }
 
-    public function removeOrderRow(Row $orderRow): static
+    public function removeRowOrder(RowOrder $rowOrder): static
     {
-        if ($this->orderRows->removeElement($orderRow)) {
+        if ($this->rowOrders->removeElement($rowOrder)) {
             // set the owning side to null (unless already changed)
-            if ($orderRow->getOrderRow() === $this) {
-                $orderRow->setOrderRow(null);
+            if ($rowOrder->getBasketOrder() === $this) {
+                $rowOrder->setBasketOrder(null);
             }
         }
 

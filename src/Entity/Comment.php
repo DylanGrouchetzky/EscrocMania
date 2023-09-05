@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Frontend\Entity;
+namespace App\Entity;
 
-use App\Frontend\Repository\CommentRepository;
-use App\Entity\User;
+use App\Repository\CommentRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,20 +14,20 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $text = null;
 
     #[ORM\Column]
     private ?int $note = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $dateComment = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?Article $article = null;
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -59,14 +58,14 @@ class Comment
         return $this;
     }
 
-    public function getDateComment(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->dateComment;
+        return $this->created_at;
     }
 
-    public function setDateComment(\DateTimeInterface $dateComment): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
     {
-        $this->dateComment = $dateComment;
+        $this->created_at = $created_at;
 
         return $this;
     }
@@ -83,14 +82,14 @@ class Comment
         return $this;
     }
 
-    public function getArticle(): ?Article
+    public function getProduct(): ?Product
     {
-        return $this->article;
+        return $this->product;
     }
 
-    public function setArticle(?Article $article): static
+    public function setProduct(?Product $product): static
     {
-        $this->article = $article;
+        $this->product = $product;
 
         return $this;
     }

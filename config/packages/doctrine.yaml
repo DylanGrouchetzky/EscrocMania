@@ -20,16 +20,6 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
-            Admin:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Admin/Entity'
-                prefix: 'App\Admin\Entity'
-                alias: App
-            Frontend:
-                is_bundle: false
-                dir: '%kernel.project_dir%/src/Frontend/Entity'
-                prefix: 'App\Frontend\Entity'
-                alias: App
 
 when@test:
     doctrine:

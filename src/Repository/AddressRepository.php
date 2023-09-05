@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Admin\Repository;
+namespace App\Repository;
 
-use App\Admin\Entity\AppSystem;
+use App\Entity\Address;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<AppSystem>
+ * @extends ServiceEntityRepository<Address>
  *
- * @method AppSystem|null find($id, $lockMode = null, $lockVersion = null)
- * @method AppSystem|null findOneBy(array $criteria, array $orderBy = null)
- * @method AppSystem[]    findAll()
- * @method AppSystem[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Address|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Address|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Address[]    findAll()
+ * @method Address[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AppSystemRepository extends ServiceEntityRepository
+class AddressRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, AppSystem::class);
+        parent::__construct($registry, Address::class);
     }
 
 //    /**
-//     * @return AppSystem[] Returns an array of AppSystem objects
+//     * @return Address[] Returns an array of Address objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class AppSystemRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?AppSystem
+//    public function findOneBySomeField($value): ?Address
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')

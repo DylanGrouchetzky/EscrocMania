@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Frontend\Repository;
+namespace App\Repository;
 
-use App\Frontend\Entity\Tag;
+use App\Entity\Tva;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Tag>
+ * @extends ServiceEntityRepository<Tva>
  *
- * @method Tag|null find($id, $lockMode = null, $lockVersion = null)
- * @method Tag|null findOneBy(array $criteria, array $orderBy = null)
- * @method Tag[]    findAll()
- * @method Tag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Tva|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Tva|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Tva[]    findAll()
+ * @method Tva[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TagRepository extends ServiceEntityRepository
+class TvaRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Tag::class);
+        parent::__construct($registry, Tva::class);
     }
 
 //    /**
-//     * @return Tag[] Returns an array of Tag objects
+//     * @return Tva[] Returns an array of Tva objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class TagRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Tag
+//    public function findOneBySomeField($value): ?Tva
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Frontend\Entity;
+namespace App\Entity;
 
-use App\Frontend\Repository\TagRepository;
+use App\Repository\TagRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,12 +18,12 @@ class Tag
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Article::class, inversedBy: 'tags')]
-    private Collection $articles;
+    #[ORM\ManyToMany(targetEntity: Product::class, inversedBy: 'tags')]
+    private Collection $products;
 
     public function __construct()
     {
-        $this->articles = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -44,25 +44,25 @@ class Tag
     }
 
     /**
-     * @return Collection<int, Article>
+     * @return Collection<int, Product>
      */
-    public function getArticles(): Collection
+    public function getProducts(): Collection
     {
-        return $this->articles;
+        return $this->products;
     }
 
-    public function addArticle(Article $article): static
+    public function addProduct(Product $product): static
     {
-        if (!$this->articles->contains($article)) {
-            $this->articles->add($article);
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
         }
 
         return $this;
     }
 
-    public function removeArticle(Article $article): static
+    public function removeProduct(Product $product): static
     {
-        $this->articles->removeElement($article);
+        $this->products->removeElement($product);
 
         return $this;
     }
