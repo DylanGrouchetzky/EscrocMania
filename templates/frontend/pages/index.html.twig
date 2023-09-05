@@ -3,10 +3,129 @@
     Test
 {% endblock %}
 {% block body %}
-<h1>Bonjour</h1>
-<i class="feather-align-center"></i>
-<div class="row">
-    <div class="col-6"><h2>Bonjour</h2></div>
-    <div class="col-6"><h2>Bonjour</h2></div>
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section"><?= $nameWebsite ?></h1>
+        </div>
+    </div>
 </div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <div class="row">
+            <div class="col-6 d-flex align-items-center">
+                <div>
+                    <h2 class="mb-3">Présentation</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Non minus beatae, id veniam similique molestias atque voluptatem aliquid dignissimos earum quos perferendis esse animi, libero sed fugit sapiente facere. Ea!
+                        Laudantium culpa ea fugit repellendus officia labore dolores repellat dolor quia, eaque eum, esse accusantium similique at, eos vero. Doloribus eveniet incidunt labore dolorum praesentium quae optio. Sit, qui beatae!
+                        Aliquam quod, quia soluta laudantium illum tempora! Doloribus temporibus fugit est, ipsa blanditiis ullam atque non deserunt sapiente! Beatae, reiciendis tenetur? Placeat est exercitationem, illum vero consectetur sequi quos autem.
+                    </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <img src="{{asset('img/block-1.jpg')}}" alt="" class="img-block-presentation">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-10 mx-auto">
+        <h2>Nos Tags de jeux</h2>
+        <div class="row my-5">
+        {% set numberTag = 0 %}
+        {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
+        {% for i in 0..7 %}
+            <div class="col-3 mb-4">   
+                        <a href="" class="link-card">
+                            <div class="
+                            {% if numberTag >= 4 %}
+                                {% if i % 2 == 0 %}
+                                    bg-card-red
+                                {% else %}
+                                    bg-card-bleu
+                                {% endif %}
+                            {% else %}
+                                {% if i % 2 == 0 %}
+                                    bg-card-bleu
+                                {% else %}
+                                    bg-card-red 
+                                {% endif %}
+                            {% endif %}
+                            d-flex align-items-center justify-content-center card-tag">
+                                <p style="font-size: 2rem;">{{nameTag[i]}}</p>
+                            </div>
+                        </a>
+                    </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <div class="splide" aria-labelledby="carousel-heading">
+          <h2>Dernier article rentrer</h2>
+          <div class="splide__track">
+                <ul class="splide__list h-25r">
+                    {% for i in 0..15 %}
+                        <li class="splide__slide">
+                            <div  class="card-last-article">
+                                <a href="#" class="link-last-article">
+                                    <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
+                                    <div class="row mt-3">
+                                        <div class="col-6">
+                                            <p style="margin-bottom: 0;">Produit N°{{i}}</p>
+                                            <p style="margin-bottom: 0;">Prix</p>
+                                        </div>
+                                        <div class="col-6 d-flex align-items-center">
+                                            <button class="btn btn-primary">Voir le produit</button>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+          </div>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <h2 class="mb-5">Nos Promos Actuel</h2>
+        <div class="row">
+            {% for i in 0..3 %}
+                <div class="col-3">
+                    <a href="#"  class="link-last-article">
+                        <img src="{{asset('img/product.jpg')}}" alt="" class="promo-product">
+                        <div class="row my-5">
+                            <div class="col-6">
+                                <p>Produit N°{{i}}</p>
+                                <p>Prix <span class="price-barrer mx-1">50€</span> 20€</p>
+                            </div>
+                            <div class="col-6 d-flex align-items-center">
+                                <button class="btn btn-primary">Voir le produit</button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<script>
+  document.addEventListener( 'DOMContentLoaded', function() {
+    var splide = new Splide( '.splide' , {
+        perPage: 4,
+        type: 'loop',
+        pagination: false,
+        arrows: true,
+        pauseOnFocus: true,
+        autoplay: false,
+        speed: 1000,
+        });
+    splide.mount();
+  } );
+</script>
+		
 {% endblock %}
