@@ -1,0 +1,50 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}
+    Accueil
+{% endblock %}
+{% block body %}
+<div class="row bg-hero-section" style="background-image:url('{{asset('img/bg-contact.jpg')}}');background-position:bottom">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section">Contact</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <div class="row">
+            <div class="col-6">
+                <p>Une question vous trotte dans la tête, envoyer nous un message :</p>
+                {{form_start(formContact)}}
+                    <div class="row">
+                        <div class="col-6">
+                            {{form_row(formContact.firstName)}}
+                        </div>
+                        <div class="col-6">
+                            {{form_row(formContact.lastName)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formContact.email)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            {{form_row(formContact.message)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary"><i class="feather-chevrons-right"></i> Envoyer</button>
+                        </div>
+                    </div>
+                {{form_end(formContact)}}
+            </div>
+            <div class="col-6">
+                <img src="{{asset('img/goku.jpg')}}" alt="" class="img-contact-form">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 <nav class="navbar bg-primary navbar-expand-lg text-white">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="{{path('home')}}">Escromania</a>
+        <a class="navbar-brand text-white font-f-special" href="{{path('home')}}">Escromania</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <i class="feather-menu"></i>
         </button>
@@ -14,13 +14,13 @@
                     Catégorie
                 </a>
                 <ul class="dropdown-menu bg-primary">
-                    <li><a class="dropdown-item" href="{{path('view_game',{'slugGame':'final-fantasy-9'})}}">Jeux</a></li>
-                    <li><a class="dropdown-item" href="#">Goodies</a></li>
-                    <li><a class="dropdown-item" href="#">Poster</a></li>
+                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Jeux'})}}">Jeux</a></li>
+                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Goodies'})}}">Goodies</a></li>
+                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Poster'})}}">Poster</a></li>
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Contact/FAQ</a>
+                    <a class="nav-link" aria-current="page" href="{{path('contact')}}">Contact/FAQ</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="#">Panier</a>

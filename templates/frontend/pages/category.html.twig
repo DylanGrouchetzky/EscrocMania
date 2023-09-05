@@ -3,26 +3,18 @@
     Accueil
 {% endblock %}
 {% block body %}
-<div class="row bg-hero-section">
+<div class="row bg-hero-section" {% if bg is not null %} style="background-image:url('{{asset(bg)}}')" {% endif %}>
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
         <div class="block-title">
-            <h1 class="title-hero-section">Recherche</h1>
+            <h1 class="title-hero-section font-f-special">{{category}}</h1>
         </div>
     </div>
 </div>
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <form action="" class="row">
-            <div class="col-3">
-                <select class="form-select" aria-label="Default select example">
-                    <option selected> -- Category -- </option>
-                    <option value="">Jeux</option>
-                    <option value="">Goodies</option>
-                    <option value="">Poster</option>
-                </select>
-            </div>
-            <div class="col-3">
-               {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
+            <div class="col-4">
+            {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
 
                 <select class="form-select" aria-label="Default select example">
                     <option selected> -- Tag -- </option>
@@ -31,10 +23,10 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <input type="text" class="form-control" placeholder="Rechercher par mot clé">
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <button type="submit" class="btn btn-primary">Rechercher</button>
             </div>
         </form>
@@ -45,7 +37,7 @@
         <div class="row">
             {% for i in 1..15 %}
                 <div class="col-3 mb-4">   
-                    <a href="" class="link-card">
+                    <a href="{{path('view_game',{'slugGame':'Final Fantasy 9'})}}" class="link-card">
                         <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
                             <p style="font-size: 2rem;">Produit N°{{i}}</p>
                         </div>
