@@ -3,17 +3,40 @@
 namespace App\Frontend\Controller;
 
 use App\Form\ContactType;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\TagRepository;
+use App\Repository\CommentRepository;
+use App\Repository\ProductRepository;
+use App\Repository\CategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+    private $tagRepository;
+    private $productRepository;
+    private $categoryRepository;
+    private $commentRepository;
+
+    public function __construct(TagRepository $tagRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, CommentRepository $commentRepository){
+        $this->tagRepository = $tagRepository;
+        $this->productRepository = $productRepository;
+        $this->categoryRepository = $categoryRepository;
+        $this->commentRepository = $commentRepository;
+    }
+    
     #[Route('/', name: 'home')]
     public function home(): Response
     {
-        return $this->render('frontend/pages/home.html.twig');
+        $tags = $this->tagRepository->findAll();
+        $lastsProducts = $this->productRepository->findBy([], ["published_at" => "DESC"], 15);
+        $discountsProducts = $this->productRepository->getRandomProduct(4);
+        return $this->render('frontend/pages/home.html.twig', [
+            'tags' => $tags,
+            'lastsProducts' => $lastsProducts,
+            'discountsProducts' => $discountsProducts
+        ]);
     }
 
     #[Route('/mentions-legales', name: 'mention_legales')]
@@ -31,11 +54,13 @@ class HomeController extends AbstractController
     #[Route('/category/{slugCategory}', name: 'view_category')]
     public function viewAllGame($slugCategory): Response
     {
-        if ($slugCategory == 'Jeux') {
+        $category = $this->categoryRepository->findOneBy(["slug" => $slugCategory]);
+        $products = $category->getProducts();
+        if ($slugCategory == 'jeux') {
             $bg = 'img/bg-game.jpg';
-        }elseif ($slugCategory == 'Goodies') {
+        }elseif ($slugCategory == 'goodies') {
             $bg = 'img/bg-goodies.jpg';
-        }elseif ($slugCategory == 'Poster') {
+        }elseif ($slugCategory == 'poster') {
             $bg = 'img/bg-poster.jpg';
         }else{
             $bg = null;
@@ -43,13 +68,19 @@ class HomeController extends AbstractController
         return $this->render('frontend/pages/category.html.twig',[
             'category' => $slugCategory,
             'bg' => $bg,
+            'products' => $products
         ]);
     }
 
-    #[Route('/jeux/{slugGame}', name: 'view_game')]
-    public function viewGame($slugGame): Response
+    #[Route('/produit/{idProduct}', name: 'view_product')]
+    public function viewProduct($idProduct): Response
     {
-        return $this->render('frontend/pages/game.html.twig');
+        $product = $this->productRepository->findOneBy(["id" => $idProduct]);
+        $comments = $this->commentRepository->findBy(["product" => $product]);
+        return $this->render('frontend/pages/product.html.twig', [
+            "product" => $product,
+            "comments" => $comments
+        ]);
     }
 
     #[Route('/search-product', name: 'search_product')]

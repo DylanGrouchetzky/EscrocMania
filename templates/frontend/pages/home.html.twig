@@ -33,18 +33,22 @@
     <div class="col-10 mx-auto">
         <h2>Nos Tags de jeux</h2>
         <div class="row my-5">
-        {% set numberTag = 0 %}
-        {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
-        {% set imgTag = ['img/bg-rpg.jpg','img/bg-plateform.jpg','img/bg-fps.jpg','img/bg-mmorpg.jpg','img/bg-moba.jpg','img/bg-horreur.jpg',"img/bg-hack.jpg","img/bg-rts.jpg"] %}
-        {% for i in 0..7 %}
+        {% set numberTags = 0 %}
+        {% for tag in tags %}
             <div class="col-3 mb-4">   
                 <a href="" class="link-card" >
-                    <div class="d-flex align-items-center justify-content-center card-tag" style="background-image:url('{{asset(imgTag[i])}}');background-size:cover;background-repeat: no-repeat;">
-                        <p style="font-size: 2rem;padding: 0.3rem 2rem 0.6rem 2rem;background-color: #ffffff5e;">{{nameTag[i]}}</p>
+                    <div class="
+                        {% if numberTags % 2 == 0 %}
+                            bg-card-red
+                        {% else %}
+                            bg-card-bleu
+                        {% endif %}
+                        d-flex align-items-center justify-content-center card-tag">
+                        <p style="font-size: 2rem;padding: 0.3rem 2rem 0.6rem 2rem;background-color: #ffffff5e;">{{tag.name}}</p>
                     </div>
                 </a>
             </div>
-            {% set numberTag = numberTag + 1  %}
+            {% set numberTags = numberTags + 1 %}
         {% endfor %}
         </div>
     </div>
@@ -55,15 +59,15 @@
           <h2>Dernier article rentrer</h2>
           <div class="splide__track">
                 <ul class="splide__list h-25r">
-                    {% for i in 0..15 %}
+                    {% for product in lastsProducts %}
                         <li class="splide__slide">
                             <div  class="card-last-article">
                                 <a href="#" class="link-last-article">
                                     <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
                                     <div class="row mt-3">
                                         <div class="col-6">
-                                            <p style="margin-bottom: 0;">Produit N°{{i}}</p>
-                                            <p style="margin-bottom: 0;">Prix</p>
+                                            <p style="margin-bottom: 0;">{{product.name}}</p>
+                                            <p style="margin-bottom: 0;">{{product.price}} €</p>
                                         </div>
                                         <div class="col-6 d-flex align-items-center">
                                             <button class="btn btn-primary">Voir le produit</button>
@@ -82,14 +86,14 @@
     <div class="col-10 mx-auto">
         <h2 class="mb-5">Nos Promos Actuel</h2>
         <div class="row">
-            {% for i in 0..3 %}
+            {% for product in discountsProducts %}
                 <div class="col-3">
                     <a href="#"  class="link-last-article">
                         <img src="{{asset('img/product.jpg')}}" alt="" class="promo-product">
                         <div class="row my-5">
                             <div class="col-6">
-                                <p>Produit N°{{i}}</p>
-                                <p>Prix <span class="price-barrer mx-1">50€</span> 20€</p>
+                                <p>{{product.name}}</p>
+                                <p>Prix <span class="price-barrer mx-1">{{product.price}}€</span> {{ product.price * (1 - (product.discount / 100)) }} €</p>
                             </div>
                             <div class="col-6 d-flex align-items-center">
                                 <button class="btn btn-primary">Voir le produit</button>

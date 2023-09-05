@@ -35,19 +35,23 @@
 <div class="row my-5">
     <div class="col-11 mx-auto">
         <div class="row">
-            {% for i in 1..15 %}
-                <div class="col-3 mb-4">   
-                    <a href="{{path('view_game',{'slugGame':'Final Fantasy 9'})}}" class="link-card">
-                        <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
-                            <p style="font-size: 2rem;">Produit N°{{i}}</p>
-                        </div>
-                    </a>
+            {% if products|length > 0 %}
+                {% for product in products %}
+                    <div class="col-3 mb-4">   
+                        <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
+                            <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
+                                <p style="font-size: 2rem;">{{product.name}}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class="col-12 d-flex justify-content-center">
+                    <p class="mx-5 pagination-search"><i class="feather-chevron-left"></i></p>
+                    <p class="pagination-search"><i class="feather-chevron-right"></i></p>
                 </div>
-            {% endfor %}
-            <div class="col-12 d-flex justify-content-center">
-                <p class="mx-5 pagination-search"><i class="feather-chevron-left"></i></p>
-                <p class="pagination-search"><i class="feather-chevron-right"></i></p>
-            </div>
+            {% else %}
+                <p>La catégorie est vide</p>
+            {% endif %}
         </div>
     </div>
 </div>

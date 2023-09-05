@@ -14,9 +14,9 @@
                     Catégorie
                 </a>
                 <ul class="dropdown-menu bg-primary">
-                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Jeux'})}}">Jeux</a></li>
-                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Goodies'})}}">Goodies</a></li>
-                    <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':'Poster'})}}">Poster</a></li>
+                    {% for category in getCategory() %}
+                        <li><a class="dropdown-item" href="{{path('view_category',{'slugCategory':category.slug})}}">{{category.name}}</a></li>
+                    {% endfor %}
                 </ul>
                 </li>
                 <li class="nav-item">
