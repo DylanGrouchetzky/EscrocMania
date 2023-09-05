@@ -37,26 +37,27 @@
         {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
         {% for i in 0..7 %}
             <div class="col-3 mb-4">   
-                        <a href="" class="link-card">
-                            <div class="
-                            {% if numberTag >= 4 %}
-                                {% if i % 2 == 0 %}
-                                    bg-card-red
-                                {% else %}
-                                    bg-card-bleu
-                                {% endif %}
-                            {% else %}
-                                {% if i % 2 == 0 %}
-                                    bg-card-bleu
-                                {% else %}
-                                    bg-card-red 
-                                {% endif %}
-                            {% endif %}
-                            d-flex align-items-center justify-content-center card-tag">
-                                <p style="font-size: 2rem;">{{nameTag[i]}}</p>
-                            </div>
-                        </a>
+                <a href="" class="link-card">
+                    <div class="
+                    {% if numberTag >= 4 %}
+                        {% if i % 2 == 0 %}
+                            bg-card-red
+                        {% else %}
+                            bg-card-bleu
+                        {% endif %}
+                    {% else %}
+                        {% if i % 2 == 0 %}
+                            bg-card-bleu
+                        {% else %}
+                            bg-card-red 
+                        {% endif %}
+                    {% endif %}
+                    d-flex align-items-center justify-content-center card-tag">
+                        <p style="font-size: 2rem;">{{nameTag[i]}}</p>
                     </div>
+                </a>
+            </div>
+            {% set numberTag = numberTag + 1  %}
         {% endfor %}
         </div>
     </div>
