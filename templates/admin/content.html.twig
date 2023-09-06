@@ -1,0 +1,30 @@
+{# templates/admin/my-custom-page.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}Backend{% endblock %}
+{% block page_actions %}
+    <a class="btn btn-primary" href="...">Some Action</a>
+{% endblock %}
+
+{% block main %}
+    <table class="datagrid">
+        <thead>
+            <tr>
+                <td>Some Column</td>
+                <td>Another Column</td>
+            </tr>
+        </thead>
+        <tbody>
+            {# {% for data in my_own_data %}
+                <tr>
+                    <td>{{ data.someColumn }}</td>
+                    <td>{{ data.anotherColumn }}</td>
+                </tr>
+            {% endfor %} #}
+            <tr>
+                <td>Bijour</td>
+                <td>Ola</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
