@@ -2,18 +2,25 @@
 
 namespace App\Admin\Controller;
 
-use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
-use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use App\Entity\Tag;
+use App\Entity\User;
+use App\Entity\Order;
+use App\Entity\Comment;
+use App\Entity\Product;
+use App\Entity\Category;
+use App\Entity\RowOrder;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 
 class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return parent::index();
+        // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
         //
@@ -29,18 +36,32 @@ class DashboardController extends AbstractDashboardController
         // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
         // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
         //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        return $this->render('/admin/content.html.twig');
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('3wa');
+            ->setTitle('EscrocMania');
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        return [
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+
+            MenuItem::section('Magasin'),
+            MenuItem::linkToCrud('Produits', 'fa fa-file-text', Product::class),
+            MenuItem::linkToCrud('Catégories', 'fa fa-file-text', Category::class),
+            MenuItem::linkToCrud('Tags', 'fa fa-file-text', Tag::class),
+
+            MenuItem::section('Utilisateurs'),
+            MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class),
+            MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comment::class),
+
+            MenuItem::section('Commandes'),
+            MenuItem::linkToCrud('Commandes', 'fa fa-user', Order::class),
+            MenuItem::linkToCrud('Détails commandes', 'fa fa-comment', RowOrder::class),
+        ];
     }
 }
