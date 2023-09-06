@@ -23,6 +23,7 @@ Encore
     .addEntry('app', './assets/app.js')
     .addEntry('style', './assets/styles/css/style.css')
     .addEntry('featherCss', './assets/styles/css/feather.css')
+    .addEntry('splideCss', './assets/styles/css/splide.min.css')
     .addEntry('bootstrapCss', 'bootstrap/dist/css/bootstrap.min.css')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.

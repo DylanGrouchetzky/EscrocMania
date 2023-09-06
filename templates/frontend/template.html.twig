@@ -2,10 +2,10 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Escromania - {% endblock %}</title>
-        <link rel="stylesheet" href="{{asset('css/splide.min.css')}}">
+        <title>Escromania - {% block title %}{% endblock %}</title>
         {% block stylesheets %}
             {{encore_entry_link_tags('featherCss')}}
+            {{encore_entry_link_tags('splideCss')}}
             {{encore_entry_link_tags('bootstrapCss')}}
             {{encore_entry_link_tags('style')}}
         {% endblock %}
@@ -20,5 +20,6 @@
         {% include "frontend/_parts/footer.html.twig" %}
         <script src="{{asset('js/splide.js')}}"></script>
         <script src="{{asset('js/htmx.min.js')}}"></script>
+        {% block addJS %}{% endblock %}
     </body>
 </html>

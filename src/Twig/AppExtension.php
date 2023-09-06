@@ -2,6 +2,7 @@
 
 namespace App\Twig;
 
+use App\Repository\TagRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
@@ -14,11 +15,13 @@ class AppExtension extends AbstractExtension{
     private $categoryRepository;
     private $productRepository;
     private $params;
+    private $tagRepository;
 
-    public function __construct(CategoryRepository $categoryRepository, ProductRepository $productRepository, ContainerBagInterface $params){
+    public function __construct(CategoryRepository $categoryRepository, ProductRepository $productRepository, ContainerBagInterface $params,TagRepository $tagRepository){
         $this->categoryRepository = $categoryRepository;
         $this->productRepository = $productRepository;
         $this->params = $params;
+        $this->tagRepository = $tagRepository;
     }
 
     public function getFunctions()
@@ -26,6 +29,7 @@ class AppExtension extends AbstractExtension{
         return [
             new TwigFunction("getCategory", [$this, "getCategory"]),
             new TwigFunction("getLastArticle", [$this, "getLastArticle"]),
+            new TwigFunction("getTags", [$this, "getTags"]),
         ];
     }
 
@@ -36,5 +40,9 @@ class AppExtension extends AbstractExtension{
 
     public function getLastArticle(){
         return $this->productRepository->findBy([], ["published_at" => "DESC"], $this->params->get('numberLastArticle'));
+    }
+
+    public function getTags(){
+        return $this->tagRepository->findAll();
     }
 }
