@@ -5,6 +5,7 @@ namespace App\Admin\Controller;
 use App\Entity\Tag;
 use App\Entity\User;
 use App\Entity\Order;
+use App\Entity\Address;
 use App\Entity\Comment;
 use App\Entity\Product;
 use App\Entity\Category;
@@ -60,6 +61,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comment::class),
 
             MenuItem::section('Commandes'),
+            MenuItem::linkToCrud('Adresses', 'fa fa-shopping-cart', Address::class),
             MenuItem::linkToCrud('Commandes', 'fa fa-shopping-cart', Order::class),
             MenuItem::linkToCrud('Détails commandes', 'fa fa-shopping-basket', RowOrder::class),
         ];
