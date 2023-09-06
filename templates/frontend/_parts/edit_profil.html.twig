@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <form action="{{path('save_new_data_profil',{'idUser':idUser,'field':field})}}" method="post">
+        <label for="newValue">{{field}}</label>
+        {% if typeInput == "text" %}
+            <input type="text" name="newValue" id="newValue">
+        {% endif %}
+        {% if typeInput == "email" %}
+            <input type="email" name="newValue" id="newValue">
+        {% endif %}
+        <button type="submit" class="btn btn-small btn-primary mx-3"><i class="feather-save"></i></button>
+    </form>
+</div>
+
