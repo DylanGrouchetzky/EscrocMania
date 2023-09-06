@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -173,6 +174,55 @@ class HomeController extends AbstractController
             'user' => $user,
         ]);
     }
+
+    #[Route('/panier', name: 'panier')]
+    public function panier(SessionInterface $session): Response
+    {
+        $panier = $session->get('panier', []);
+        $panierWithData = [];
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'product' => $this->productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+
+        $total = 0;
+        foreach ($panierWithData as $item) {
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $total += $totalItem;
+        }
+        return $this->render('frontend/pages/panier.html.twig',[
+            'items' => $panierWithData,
+            'total' => $total,
+        ]);
+    }
+
+    #[Route('/panier/add/{id}', name: 'panier_add')]
+    public function panierAdd(SessionInterface $session, $id): Response
+    {
+        $panier = $session->get('panier', []);
+        if (!empty($panier[$id])) {
+            $panier[$id]++;
+        }else{
+            $panier[$id] = 1;
+        }
+        $session->set('panier', $panier);
+        return $this->redirectToRoute('panier');
+    }
+
+    #[Route('/panier/remove/{id}', name: 'panier_remove')]
+    public function panierRemove(SessionInterface $session, $id): Response
+    {
+        $panier = $session->get('panier', []);
+        if (!empty($panier[$id])) {
+            unset($panier[$id]);
+        }
+        $session->set('panier', $panier);
+        return $this->redirectToRoute('panier');
+    }
+
+
 
     #[Route('/inscription', name: 'sign_in')]
     public function signIn(Request $request): Response

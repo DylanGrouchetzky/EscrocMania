@@ -1,0 +1,51 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}
+    Accueil
+{% endblock %}
+{% block body %}
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section font-f-special">Votre Panier</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        {% if items|length > 0 %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produit</th>
+                        <th>Prix</th>
+                        <th>Quantité</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td>{{item.product.name}}</td>
+                            <td>{{item.product.price}}</td>
+                            <td>{{item.quantity}}</td>
+                            <td>{{item.product.price * item.quantity}}</td>
+                            <td><a href="{{path('panier_remove',{'id':item.product.id})}}" class="btn btn-danger btn-sm"><i class="feather-trash-2"></i></a></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-right">Total : </td>
+                        <td>{{total}}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        {% else %}
+            <p>Le panier est vide</p>
+        {% endif %}
+        
+    </div>
+</div>
+{% endblock %}
