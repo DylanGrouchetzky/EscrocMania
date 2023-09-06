@@ -52,16 +52,16 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Magasin'),
             MenuItem::linkToCrud('Produits', 'fa fa-file-text', Product::class),
-            MenuItem::linkToCrud('Catégories', 'fa fa-file-text', Category::class),
-            MenuItem::linkToCrud('Tags', 'fa fa-file-text', Tag::class),
+            MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class),
+            MenuItem::linkToCrud('Tags', 'fa fa-tags', Tag::class),
 
             MenuItem::section('Utilisateurs'),
             MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class),
             MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comment::class),
 
             MenuItem::section('Commandes'),
-            MenuItem::linkToCrud('Commandes', 'fa fa-user', Order::class),
-            MenuItem::linkToCrud('Détails commandes', 'fa fa-comment', RowOrder::class),
+            MenuItem::linkToCrud('Commandes', 'fa fa-shopping-cart', Order::class),
+            MenuItem::linkToCrud('Détails commandes', 'fa fa-shopping-basket', RowOrder::class),
         ];
     }
 }
