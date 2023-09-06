@@ -62,6 +62,7 @@ class DashboardController extends AbstractDashboardController
             MenuItem::section('Commandes'),
             MenuItem::linkToCrud('Commandes', 'fa fa-shopping-card', Order::class),
             MenuItem::linkToCrud('Détails commandes', 'fa fa-shopping-basket', RowOrder::class),
+
         ];
     }
 }
