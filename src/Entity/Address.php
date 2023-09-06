@@ -147,4 +147,9 @@ class Address
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->getLine().', '.$this->getZipcode().', '.$this->getCity().', '.$this->getCountry();
+    }
 }
