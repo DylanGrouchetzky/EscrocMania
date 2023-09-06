@@ -13,38 +13,48 @@
 <div class="row my-5">
     <div class="col-10 mx-auto p-5 d-flex align-items-center justify-content-center" style="background-image:url('{{asset('img/bg-profil.webp')}}');background-size: cover;height: 41rem;">
         <div class="p-5 w-100" style="background-color: #ffffff6e;">
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+                {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
             <div class="row ">
-                <div class="col-12">
-                    <p>Pseudo : {{user.pseudo}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                <div class="col-12" id="fieldPseudo">
+                    <p>Pseudo : {{user.pseudo}} <button hx-post="{{path('profil_edit',{'idUser':user.id,'field':'pseudo','type':'text'})}}" hx-trigger="click" hx-target="#fieldPseudo" class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6" id="fieldFirstName">
+                    <p>Prénom : {{user.firstName}} <button hx-post="{{path('profil_edit',{'idUser':user.id,'field':'firstName','type':'text'})}}" hx-trigger="click" hx-target="#fieldFirstName" class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                </div>
+                <div class="col-6" id="fieldLastName">
+                    <p>Nom : {{user.lastName}} <button hx-post="{{path('profil_edit',{'idUser':user.id,'field':'lastName','type':'text'})}}" hx-trigger="click" hx-target="#fieldLastName" class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <p>Prénom : {{user.firstName}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                    <p>Anniverssaire le : {{user.birthday|date("m/d/Y")}}</p>
                 </div>
                 <div class="col-6">
-                    <p>Nom : {{user.lastName}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                    <p>Age : {{user.age}}</p>
                 </div>
             </div>
             <div class="row">
                 <div class="col-6">
-                    <p>Anniverssaire le : {{user.birthday|date("m/d/Y")}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                    <p>Créé le : {{user.createdAt|date("m/d/Y")}}</p>
                 </div>
                 <div class="col-6">
-                    <p>Age : {{user.age}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                    <p>Modifié le : {{user.modifiedAt|date("m/d/Y")}}</p>
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
-                    <p>Créé le : {{user.createdAt|date("m/d/Y")}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
-                </div>
-                <div class="col-6">
-                    <p>Modifié le : {{user.modifiedAt|date("m/d/Y")}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <p>Email : {{user.email}} <button class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
+                <div class="col-12" id="fieldEmail">
+                    <p>Email : {{user.email}} <button hx-post="{{path('profil_edit',{'idUser':user.id,'field':'email','type':'email'})}}" hx-trigger="click" hx-target="#fieldEmail" class="btn btn-small btn-primary mx-3"><i class="feather-edit"></i></button></p>
                 </div>
             </div>
         </div>

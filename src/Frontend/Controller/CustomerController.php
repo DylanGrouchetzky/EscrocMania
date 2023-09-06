@@ -5,6 +5,7 @@ namespace App\Frontend\Controller;
 use App\Entity\User;
 use App\Form\ContactType;
 use App\Form\SignInType;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,16 +20,55 @@ class CustomerController extends AbstractController
 {
     private $hash;
     private $em;
+    private $userRepository;
 
-    public function __construct(UserPasswordHasherInterface $hash,EntityManagerInterface $em){
+    public function __construct(UserPasswordHasherInterface $hash,EntityManagerInterface $em, UserRepository $userRepository){
         $this->hash = $hash;
         $this->em = $em;
+        $this->userRepository = $userRepository;
     }
 
     #[Route('/profil', name: 'profil')]
     public function profil(): Response
     {
         $user = $this->getUser();
+        return $this->render('frontend/pages/profil.html.twig',[
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/profil/{idUser}/{field}/{type}', name: 'profil_edit')]
+    public function editProfil($idUser,$field,$type): Response
+    {
+        return $this->render('frontend/_parts/edit_profil.html.twig',[
+            'idUser' => $idUser,
+            'field' => $field,
+            'typeInput' => $type,
+        ]);
+    }
+
+    #[Route('/profil/{idUser}/{field}', name: 'save_new_data_profil')]
+    public function saveNewDataProfil(Request $request,$idUser,$field): Response
+    {
+        $user = $this->userRepository->findOneBy(['id' => $idUser]);
+        if (!$user) {
+            $this->addFlash('error', 'Une erreur est parvenue');
+            return $this->render('frontend/pages/profil.html.twig',[
+                'user' => $user,
+            ]);
+        }
+        if ($field == 'pseudo') {
+            $user->setPseudo($request->request->get('newValue'));
+        }elseif ($field == 'firstName') {
+            $user->setFirstname($request->request->get('newValue'));
+        }elseif ($field == 'lastName') {
+            $user->setLastname($request->request->get('newValue'));
+        }elseif ($field == 'email') {
+            $user->setEmail($request->request->get('newValue'));
+        }
+        $this->em->persist($user);
+        $this->em->flush();
+        $this->addFlash('success', 'La donner a bien était enregistrer');
         return $this->render('frontend/pages/profil.html.twig',[
             'user' => $user,
         ]);
