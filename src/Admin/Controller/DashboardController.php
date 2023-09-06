@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Entity\Order;
 use App\Entity\Address;
 use App\Entity\Comment;
+use App\Entity\Picture;
 use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\RowOrder;
@@ -53,6 +54,7 @@ class DashboardController extends AbstractDashboardController
 
             MenuItem::section('Magasin'),
             MenuItem::linkToCrud('Produits', 'fa fa-file-text', Product::class),
+            MenuItem::linkToCrud('Images', 'fa fa-photo', Picture::class),
             MenuItem::linkToCrud('Catégories', 'fa fa-book', Category::class),
             MenuItem::linkToCrud('Tags', 'fa fa-tags', Tag::class),
 

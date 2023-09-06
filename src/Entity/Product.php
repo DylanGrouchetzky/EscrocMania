@@ -58,11 +58,15 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: RowOrder::class)]
     private Collection $rowOrders;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Picture::class)]
+    private Collection $pictures;
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->rowOrders = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,5 +291,40 @@ class Product
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Picture>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): static
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures->add($picture);
+            $picture->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): static
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getProduct() === $this) {
+                $picture->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
     }
 }
