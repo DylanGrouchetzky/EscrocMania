@@ -7,11 +7,11 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{path('home')}}">Accueil</a>
+                    <a class="nav-link active" aria-current="page" href="{{path('home')}}"><i class="feather-home"></i> Accueil</a>
                 </li>
                 <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Catégorie
+                    <i class="feather-book-open"></i> Catégorie
                 </a>
                 <ul class="dropdown-menu bg-primary">
                     {% for category in getCategory() %}
@@ -20,10 +20,10 @@
                 </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{path('contact')}}">Contact/FAQ</a>
+                    <a class="nav-link" aria-current="page" href="{{path('contact')}}"><i class="feather-message-square"></i> Contact/FAQ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">Panier</a>
+                    <a class="nav-link" aria-current="page" href="#"><i class="feather-shopping-cart"></i> Panier</a>
                 </li>
             </ul>
             <form class="d-flex" role="search" style="margin-bottom: 0 !important;">
@@ -31,8 +31,14 @@
                 <a href="{{path('search_product')}}" class="btn btn-outline-white w-12r" type="submit"><i class="feather-search"></i> Search</a>
             </form>
             <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="index.php?page=signin"><i class="feather-log-in"></i> Connection/Inscription</a>
+                <li class="nav-item d-flex">
+                    {% if app.user %}
+                        <a class="btn btn-outline-info mx-3" aria-current="page" href="{{path('profil')}}"><i class="feather-user"></i> {{app.user.pseudo}}</a>
+                        <a class="btn btn-outline-info mx-3" aria-current="page" href="{{path('app_logout')}}"><i class="feather-log-out"></i> Déconnexion</a>
+                    {% else %}
+                        <a class="btn btn-outline-success mx-3" aria-current="page" href="{{path('app_login')}}"><i class="feather-log-in"></i> Connection</a>
+                        <a class="btn btn-outline-info" aria-current="page" href="{{path('sign_in')}}"><i class="feather-edit-2"></i> Inscription</a>
+                    {% endif %}
                 </li>
             </ul>
         </div>

@@ -12,9 +12,9 @@
             <div class="col-4 text-center">
                 <h2 class="text-white mb-3">Nos Category</h2>
                 <ul class="list-footer">
-                    <li class="mb-2"><a class="link-footer" href="{{path('view_category',{'slugCategory':'Jeux'})}}">Jeux</a></li>
-                    <li class="mb-2"><a class="link-footer" href="{{path('view_category',{'slugCategory':'Goodies'})}}">Goodies</a></li>
-                    <li class="mb-2"><a class="link-footer" href="{{path('view_category',{'slugCategory':'Poster'})}}">Poster</a></li>
+                    {% for category in getCategory() %}
+                        <li class="mb-2"><a class="link-footer" href="{{path('view_category',{'slugCategory':category.slug})}}">{{category.name}}</a></li>
+                    {% endfor %}
                 </ul>
             </div>
             <div class="col-4 text-center">

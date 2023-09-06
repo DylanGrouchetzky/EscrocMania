@@ -13,14 +13,17 @@
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <div class="row">
-            <div class="col-6">
+            <div class="col-7">
                 <img src="{{asset('img/final-fantasy.jpg')}}" alt="" class="img-presentation-product">
             </div>
-            <div class="col-6 d-flex align-items-center">
+            <div class="col-5 d-flex align-items-center">
                 <div>
                     <h2>{{product.name}}</h2>
                     <p>{{product.description}}</p>
                     <p style="font-size: 2rem;">Prix : {{product.price}}€</p>
+                    <div class="d-flex justify-content-end">
+                        <button class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,39 +52,16 @@
         </div>
     </div>
 </div>
-<div class="row my-5">
-    <div class="col-10 mx-auto">
-        <div class="splide" aria-labelledby="carousel-heading">
-          <h2>Dernier article rentrer</h2>
-          <div class="splide__track">
-                <ul class="splide__list h-25r">
-                    {% for i in 0..15 %}
-                        <li class="splide__slide">
-                            <div  class="card-last-article">
-                                <a href="#" class="link-last-article">
-                                    <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
-                                    <div class="row mt-3">
-                                        <div class="col-6">
-                                            <p style="margin-bottom: 0;">Produit N°{{i}}</p>
-                                            <p style="margin-bottom: 0;">Prix</p>
-                                        </div>
-                                        <div class="col-6 d-flex align-items-center">
-                                            <button class="btn btn-primary">Voir le produit</button>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-          </div>
-        </div>
-    </div>
-</div>
+
+{% include "frontend/_parts/lastArticle.html.twig" %}
+
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <h2 class="mb-4">Commentaire sur ce produit</h2>
         {% if comments|length > 0 %}
+            {% if app.user %}
+                <a href="#" class="btn btn-primary"><i class="feather-plus"></i> Ajouter un commentaire</a>
+            {% endif %}
             <div class="accordion" id="accordionExample">
                 {% for comment in comment %}
                     <div class="accordion-item">
@@ -105,7 +85,13 @@
                 {% endfor %}
             </div>
         {% else %}
-            <p>Commentes ptit margoulin !!!</p>
+            <p>Pas encore de commentaire pour se produit</p>
+            {% if app.user %}
+                <a href="#" class="btn btn-primary"><i class="feather-plus"></i> Ajouter un commentaire</a>
+            {% else %}
+                <p>Il faut être connecter pour mettre un commentaire</p>
+            {% endif %}
+            
         {% endif %}
     </div>
 </div>

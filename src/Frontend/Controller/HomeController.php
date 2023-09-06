@@ -2,15 +2,23 @@
 
 namespace App\Frontend\Controller;
 
+use App\Entity\User;
 use App\Form\ContactType;
+use App\Form\SignInType;
 use App\Repository\TagRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class HomeController extends AbstractController
 {
@@ -18,12 +26,24 @@ class HomeController extends AbstractController
     private $productRepository;
     private $categoryRepository;
     private $commentRepository;
+    private $params;
+    private $hash;
+    private $em;
 
-    public function __construct(TagRepository $tagRepository, ProductRepository $productRepository, CategoryRepository $categoryRepository, CommentRepository $commentRepository){
+    public function __construct(TagRepository $tagRepository, 
+    ProductRepository $productRepository, 
+    CategoryRepository $categoryRepository,
+    CommentRepository $commentRepository,
+    ContainerBagInterface $params,
+    UserPasswordHasherInterface $hash,
+    EntityManagerInterface $em){
         $this->tagRepository = $tagRepository;
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
         $this->commentRepository = $commentRepository;
+        $this->params = $params;
+        $this->hash = $hash;
+        $this->em = $em;
     }
     
     #[Route('/', name: 'home')]
@@ -55,7 +75,7 @@ class HomeController extends AbstractController
     public function viewAllGame($slugCategory): Response
     {
         $category = $this->categoryRepository->findOneBy(["slug" => $slugCategory]);
-        $products = $category->getProducts();
+        $products = $this->productRepository->findBy(['category' => $category],['published_at' => 'ASC'],$this->params->get('limitProductCategory'));
         if ($slugCategory == 'jeux') {
             $bg = 'img/bg-game.jpg';
         }elseif ($slugCategory == 'goodies') {
@@ -68,15 +88,51 @@ class HomeController extends AbstractController
         return $this->render('frontend/pages/category.html.twig',[
             'category' => $slugCategory,
             'bg' => $bg,
-            'products' => $products
+            'products' => $products,
+        ]);
+    }
+
+    #[Route('/next-category/{slugCategory}/{start}/{action}', name: 'view_category_next_product')]
+    public function nextProduct($slugCategory,$start,$action){
+        
+        $category = $this->categoryRepository->findOneBy(["slug" => $slugCategory]);
+
+        if ($action == 'next') {
+            $start = $start + $this->params->get('limitProductCategory');
+            $nextProduct = $this->productRepository->findBy(['category' => $category],['published_at' => 'ASC'],1,$start + $this->params->get('limitProductCategory'));
+            if (!$nextProduct) {
+                $classButtonNext = "disabled";
+            }else{
+                $classButtonNext = null;
+            }
+            $classButtonPrev = null;
+        }elseif ($action == 'prev') {
+            $start = $start - $this->params->get('limitProductCategory');
+            if ($start == 0 || $start < 0) {
+                $classButtonPrev = "disabled";
+            }else{
+                $classButtonPrev = null;
+            }
+            $classButtonNext = null;
+        }
+
+        $products = $this->productRepository->findBy(['category' => $category],['published_at' => 'ASC'],$this->params->get('limitProductCategory'),$start);
+        
+        return $this->render('frontend/_parts/nextProduct.html.twig',[
+            'category' => $slugCategory,
+            'products' => $products,
+            'start' => $start,
+            'classButtonNext' => $classButtonNext,
+            'classButtonPrev' => $classButtonPrev,
         ]);
     }
 
     #[Route('/produit/{idProduct}', name: 'view_product')]
-    public function viewProduct($idProduct): Response
+    public function viewProduct(Request $request ,$idProduct): Response
     {
         $product = $this->productRepository->findOneBy(["id" => $idProduct]);
         $comments = $this->commentRepository->findBy(["product" => $product]);
+        $session = $request->getSession();
         return $this->render('frontend/pages/product.html.twig', [
             "product" => $product,
             "comments" => $comments
@@ -90,11 +146,63 @@ class HomeController extends AbstractController
     }
 
     #[Route('/contact', name: 'contact')]
-    public function contactPage(Request $request): Response
+    public function contactPage(Request $request, MailerInterface $mailer): Response
     {
         $contactForm = $this->createForm(ContactType::class);
+        $contactForm->handleRequest($request);
+        if ($contactForm->isSubmitted() && $contactForm->isValid()){
+            $data = $contactForm->getData();
+            $email = (new Email())
+            ->from('mrgrouchetzkydylan@gmail.com')
+            ->to('mrgrouchetzkydylan@gmail.com')
+            ->subject('test')
+            ->text('Ceci est un test');
+
+            $mailer->send($email);
+        }
         return $this->render('frontend/pages/contact.html.twig',[
             'formContact' => $contactForm->createView(),
+        ]);
+    }
+
+    #[Route('/profil', name: 'profil')]
+    public function profil(Request $request): Response
+    {
+        $user = $this->getUser();
+        return $this->render('frontend/pages/profil.html.twig',[
+            'user' => $user,
+        ]);
+    }
+
+    #[Route('/inscription', name: 'sign_in')]
+    public function signIn(Request $request): Response
+    {
+        $signInForm = $this->createForm(SignInType::class);
+        $signInForm->handleRequest($request);
+        if ($signInForm->isSubmitted() && $signInForm->isValid()) {
+            $data = $signInForm->getData();
+            $createdUser = new DateTimeImmutable();
+            $birthUser = $data['birthday'];
+            $age = $birthUser->diff(new DateTimeImmutable())->format('%y');
+            $user = new User();
+            $user->setEmail($data['email'])
+            ->setRoles(['ROLE_USER'])
+            ->setPassword($this->hash->hashPassword($user, $data['password']))
+            ->setFirstname($data['firstName'])
+            ->setLastname($data['lastName'])
+            ->setPseudo($data['speudo'])
+            ->setBirthday($data['birthday'])
+            ->setAge($age)
+            ->setCreatedAt($createdUser)
+            ->setModifiedAt($createdUser);
+            $this->em->persist($user);
+            $this->em->flush();
+            $this->addFlash('success', 'Votre compte a bien était crée');
+            return $this->redirectToRoute('app_login');
+        }
+
+        return $this->render('frontend/pages/sign_in.html.twig',[
+            'signInForm' => $signInForm->createView(),
         ]);
     }
 }

@@ -48,6 +48,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function getRandomProduct($number){
         $query = $this->createQueryBuilder('p')
+            ->andWhere('p.discount > 0')
             ->orderBy('RAND()')
             ->setMaxResults($number)
             ->getQuery()

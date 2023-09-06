@@ -72,11 +72,38 @@ class AppFixtures extends Fixture
         $manager->persist($category3);
 
         // TAG
-        for ($i=0; $i < 11; $i++) { 
-            $tag = new Tag();
-            $tag->setName($faker->word());
-            $manager->persist($tag);
-        }
+        
+        $tag1 = new Tag();
+        $tag1->setName('Rpg');
+        $manager->persist($tag1);
+        
+        $tag2 = new Tag();
+        $tag2->setName('Plateform');
+        $manager->persist($tag2);
+        
+        $tag3 = new Tag();
+        $tag3->setName('MMORPG');
+        $manager->persist($tag3);
+        
+        $tag4 = new Tag();
+        $tag4->setName('MOBA');
+        $manager->persist($tag4);
+        
+        $tag5 = new Tag();
+        $tag5->setName('Horreur');
+        $manager->persist($tag5);
+        
+        $tag6 = new Tag();
+        $tag6->setName("Hack'n Slash");
+        $manager->persist($tag6);
+        
+        $tag7 = new Tag();
+        $tag7->setName('RTS');
+        $manager->persist($tag7);
+        
+        $tag8 = new Tag();
+        $tag8->setName('FPS');
+        $manager->persist($tag8);
 
         for ($i=0; $i < 100; $i++) {
             $product = new Product();

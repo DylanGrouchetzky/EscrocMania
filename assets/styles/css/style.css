@@ -47,6 +47,10 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
 .dropdown-menu{text-align: center;}
 .btn-outline-white{color: white!important;border: 1px solid white;transition: all ease 0.5s;}
 .btn-outline-white:hover{background-color: white!important;color: blue!important;transition: all ease 0.5s;}
+.btn-outline-success{color: white!important;border: 1px solid white;transition: all ease 0.5s;}
+.btn-outline-success:hover{background-color: green!important;color: white!important;transition: all ease 0.5s;}
+.btn-outline-info{color: white!important;border: 1px solid white;transition: all ease 0.5s;}
+.btn-outline-info:hover{background-color: turquoise!important;color: white!important;transition: all ease 0.5s;}
 
 /* NAVBAR */
 /* BG */
@@ -84,6 +88,9 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
     object-fit: cover;
     width: 100%;}
 .img-contact-form{width: 100%;object-fit: cover;}
+.img-login{height: 30rem;
+    width: 100%;
+    object-fit: cover;}
 
 /* PICTURE */
 /* SPLIDE */
