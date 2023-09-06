@@ -22,7 +22,7 @@
                     <p>{{product.description}}</p>
                     <p style="font-size: 2rem;">Prix : {{product.price / 100 }}€</p>
                     <div class="d-flex justify-content-end">
-                        <button class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
+                        <a href="{{path('panier_add',{'id':product.id})}}" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</a>
                     </div>
                 </div>
             </div>
