@@ -1,29 +1,32 @@
-<div class="row my-5">
-    <div class="col-10 mx-auto">
-        <div class="splide" id="splideLastArticle" aria-labelledby="carousel-heading">
-          <h2>Dernier article rentrer</h2>
-          <div class="splide__track">
-                <ul class="splide__list h-25r">
-                    {% for product in getLastArticle() %}
-                        <li class="splide__slide">
-                            <div  class="card-last-article">
-                                <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-last-article">
-                                    <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
-                                    <div class="row mt-3">
-                                        <div class="col-6">
-                                            <p style="margin-bottom: 0;">{{product.name}}</p>
-                                            <p style="margin-bottom: 0;">{{product.price}} €</p>
+{% set lastArticle = getLastArticle() %}
+{% if lastArticle|length > 0 %}
+    <div class="row my-5">
+        <div class="col-10 mx-auto">
+            <div class="splide" id="splideLastArticle" aria-labelledby="carousel-heading">
+            <h2>Dernier article rentrer</h2>
+            <div class="splide__track">
+                    <ul class="splide__list h-25r">
+                        {% for product in lastArticle %}
+                            <li class="splide__slide">
+                                <div  class="card-last-article">
+                                    <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-last-article">
+                                        <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
+                                        <div class="row mt-3">
+                                            <div class="col-6">
+                                                <p style="margin-bottom: 0;">{{product.name}}</p>
+                                                <p style="margin-bottom: 0;">{{product.price  / 100 }} €</p>
+                                            </div>
+                                            <div class="col-6 d-flex align-items-center">
+                                                <button class="btn btn-primary">Voir le produit</button>
+                                            </div>
                                         </div>
-                                        <div class="col-6 d-flex align-items-center">
-                                            <button class="btn btn-primary">Voir le produit</button>
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-          </div>
+                                    </a>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+            </div>
+            </div>
         </div>
     </div>
-</div>
+{% endif %}

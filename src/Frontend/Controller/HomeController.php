@@ -153,8 +153,8 @@ class HomeController extends AbstractController
         if ($contactForm->isSubmitted() && $contactForm->isValid()){
             $data = $contactForm->getData();
             $email = (new Email())
-            ->from('mrgrouchetzkydylan@gmail.com')
-            ->to('mrgrouchetzkydylan@gmail.com')
+            ->from('escromania3993@outlook.fr')
+            ->to('escromania3993@outlook.fr')
             ->subject('test')
             ->text('Ceci est un test');
 

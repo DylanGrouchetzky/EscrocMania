@@ -31,30 +31,34 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-10 mx-auto">
-        <h2>Nos Tags de jeux</h2>
-        <div class="row my-5">
-        {% set numberTags = 0 %}
-        {% for tag in tags %}
-            <div class="col-3 mb-4">   
-                <a href="" class="link-card" >
-                    <div class="
-                        {% if numberTags % 2 == 0 %}
-                            bg-card-red
-                        {% else %}
-                            bg-card-bleu
-                        {% endif %}
-                        d-flex align-items-center justify-content-center card-tag">
-                        <p style="font-size: 2rem;padding: 0.3rem 2rem 0.6rem 2rem;background-color: #ffffff5e;">{{tag.name}}</p>
-                    </div>
-                </a>
+
+{% if tags|length > 0 %}
+    <div class="row">
+        <div class="col-10 mx-auto">
+            <h2>Nos Tags de jeux</h2>
+            <div class="row my-5">
+            {% set numberTags = 0 %}
+            {% for tag in tags %}
+                <div class="col-3 mb-4">   
+                    <a href="" class="link-card" >
+                        <div class="
+                            {% if numberTags % 2 == 0 %}
+                                bg-card-red
+                            {% else %}
+                                bg-card-bleu
+                            {% endif %}
+                            d-flex align-items-center justify-content-center card-tag">
+                            <p style="font-size: 2rem;padding: 0.3rem 2rem 0.6rem 2rem;background-color: #ffffff5e;">{{tag.name}}</p>
+                        </div>
+                    </a>
+                </div>
+                {% set numberTags = numberTags + 1 %}
+            {% endfor %}
             </div>
-            {% set numberTags = numberTags + 1 %}
-        {% endfor %}
         </div>
     </div>
-</div>
+{% endif %}
+
 
 {% include "frontend/_parts/lastArticle.html.twig" %}
 
@@ -70,7 +74,7 @@
                             <div class="row my-5">
                                 <div class="col-6">
                                     <p>{{product.name}}</p>
-                                    <p>Prix <span class="price-barrer mx-1">{{product.price}}€</span> {{ product.price * (1 - (product.discount / 100)) }} €</p>
+                                    <p>Prix <span class="price-barrer mx-1">{{product.price  / 100 }}€</span> {{ (product.price  / 100) * (1 - (product.discount / 100)) }} €</p>
                                 </div>
                                 <div class="col-6 d-flex align-items-center">
                                     <button class="btn btn-primary">Voir le produit</button>
