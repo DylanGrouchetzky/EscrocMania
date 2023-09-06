@@ -1,7 +1,5 @@
 {% extends "frontend/template.html.twig" %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %}{{product.name}}{% endblock %}
 {% block body %}
 <div class="row bg-hero-section">
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
@@ -18,6 +16,11 @@
             </div>
             <div class="col-5 d-flex align-items-center">
                 <div>
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     <h2>{{product.name}}</h2>
                     <p>{{product.description}}</p>
                     <p style="font-size: 2rem;">Prix : {{product.price / 100 }}€</p>
@@ -91,10 +94,11 @@
             {% else %}
                 <p>Il faut être connecter pour mettre un commentaire</p>
             {% endif %}
-            
         {% endif %}
     </div>
 </div>
+{% endblock %}
+{% block addJS %}
 <script>
   document.addEventListener( 'DOMContentLoaded', function() {
     var splide = new Splide( '.splide' , {
@@ -109,5 +113,4 @@
     splide.mount();
   } );
 </script>
-
 {% endblock %}

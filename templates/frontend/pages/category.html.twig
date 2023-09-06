@@ -1,7 +1,5 @@
 {% extends "frontend/template.html.twig" %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %} {{category}} {% endblock %}
 {% block body %}
 <div class="row bg-hero-section" {% if bg is not null %} style="background-image:url('{{asset(bg)}}')" {% endif %}>
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
@@ -14,12 +12,10 @@
     <div class="col-10 mx-auto">
         <form action="" class="row">
             <div class="col-4">
-            {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
-
                 <select class="form-select" aria-label="Default select example">
                     <option selected> -- Tag -- </option>
-                    {% for tag in nameTag %}
-                        <option value="#">{{tag}}</option>
+                    {% for tag in getTags() %}
+                        <option value="#">{{tag.name}}</option>
                     {% endfor %}
                 </select>
             </div>

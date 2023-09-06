@@ -16,18 +16,16 @@
             <div class="col-3">
                 <select class="form-select" aria-label="Default select example">
                     <option selected> -- Category -- </option>
-                    <option value="">Jeux</option>
-                    <option value="">Goodies</option>
-                    <option value="">Poster</option>
+                    {% for category in getCategory() %}
+                        <option value="#">{{category.name}}</option>
+                    {% endfor %}
                 </select>
             </div>
             <div class="col-3">
-               {% set nameTag = ['Rpg','Plateform','FPS','MMORPG','MOBA','Horreur',"Hack'n Slash","RTS"] %}
-
                 <select class="form-select" aria-label="Default select example">
                     <option selected> -- Tag -- </option>
-                    {% for tag in nameTag %}
-                        <option value="#">{{tag}}</option>
+                    {% for tag in getTags() %}
+                        <option value="#">{{tag.name}}</option>
                     {% endfor %}
                 </select>
             </div>

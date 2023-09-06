@@ -1,9 +1,6 @@
 {% extends "frontend/template.html.twig" %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 {% block body %}
-
 <div class="row bg-hero-section">
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
         <div class="block-title">
@@ -59,7 +56,6 @@
     </div>
 {% endif %}
 
-
 {% include "frontend/_parts/lastArticle.html.twig" %}
 
 {% if discountsProducts|length > 0 %}
@@ -87,7 +83,8 @@
     </div>
 </div>
 {% endif %}
-
+{% endblock %}
+{% block addJS %}
 <script>
   document.addEventListener( 'DOMContentLoaded', function() {
     var splide = new Splide( '.splide' , {
@@ -102,5 +99,4 @@
     splide.mount();
   } );
 </script>
-		
 {% endblock %}

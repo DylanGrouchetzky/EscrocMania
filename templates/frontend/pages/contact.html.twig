@@ -1,7 +1,5 @@
 {% extends "frontend/template.html.twig" %}
-{% block title %}
-    Accueil
-{% endblock %}
+{% block title %}Contact{% endblock %}
 {% block body %}
 <div class="row bg-hero-section" style="background-image:url('{{asset('img/bg-contact.jpg')}}');background-position:bottom">
     <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
@@ -14,6 +12,11 @@
     <div class="col-10 mx-auto">
         <div class="row">
             <div class="col-6">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                 <p>Une question vous trotte dans la tête, envoyer nous un message :</p>
                 {{form_start(formContact)}}
                     <div class="row">
