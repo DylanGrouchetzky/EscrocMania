@@ -13,10 +13,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class CheckoutController extends AbstractController
 {
     #[Route('/checkout', name: 'app_checkout')]
-    public function index(ProductRepository $productRepository,OrderRepository $orderRepository, SessionInterface $session): Response
+    public function index(ProductRepository $productRepository, SessionInterface $session): Response
     {
-      $order = $this->orderRepository->find($id);
-
       \Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
       // Les éléments du panier
       $panier = $session->get('panier', []);
@@ -49,8 +47,11 @@ class CheckoutController extends AbstractController
     }
 
     #[Route('/checkout/create-charge/', name: 'app_stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request, SessionInterface $session, MailerInterface $mailer, $step)
+    public function createCharge(Request $request, SessionInterface $session, OrderRepository $orderRepository, MailerInterface $mailer, $step)
     {
+      $order = $this->$orderRepository->find($id);
+      $order->setStep(1);
+
       Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
       Stripe\Charge::create ([
         "amount" => 5 * 100,
