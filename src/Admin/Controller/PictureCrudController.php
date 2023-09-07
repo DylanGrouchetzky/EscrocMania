@@ -23,6 +23,11 @@ class PictureCrudController extends AbstractCrudController
             TextField::new('name', 'Nom'),
             TextField::new('path'),
             TextField::new('slug'),
+            ImageField::new('file')->onlyOnIndex()->setBasePath('/img/products/'),
+            ImageField::new('file')
+            ->onlyOnForms()
+            ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
+            ->setUploadDir('public/img/products/'),
             // ImageField::new('image')
             // ->setBasePath('img/products/')
             // ->setUploadDir('public/img/products')
