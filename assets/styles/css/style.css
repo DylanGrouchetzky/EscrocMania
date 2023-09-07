@@ -38,6 +38,8 @@ html,body{overflow-x: hidden;}
 .link-footer-reseaux{color: white!important;padding: 1.5rem;border-radius: 3rem;
 background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 1s;text-decoration: none;}
 .link-footer-reseaux:hover{transition: all ease 1s;background-color: var(--color-red);}
+.border-block-basket{border: 1px solid black;border-left: 0;}
+.border-block-basket-1{border: 1px solid black;}
 
 /* GENERAL */
 /* NAVBAR */
@@ -91,6 +93,7 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
 .img-login{height: 30rem;
     width: 100%;
     object-fit: cover;}
+.img-groupe-dev{height: 30rem;width: 100%;object-fit: cover;}
 
 /* PICTURE */
 /* SPLIDE */
@@ -101,3 +104,16 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
 .splide__track--loop.splide__track--ltr.splide__track--draggable{height: 25rem;}
 
 /* SPLIDE */
+/* FONT */
+
+.f-12r{font-size: 1.2rem;}
+.f-13r{font-size: 1.3rem;}
+.f-15r{font-size: 1.5rem;}
+.f-2r{font-size: 2rem;}
+
+/* FONT */
+/* MARGIN */
+
+.mb-0{margin-bottom: 0!important;}
+
+/* MARGIN */

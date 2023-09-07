@@ -2,10 +2,13 @@
 
 namespace App\Frontend\Controller;
 
+use App\Entity\Comment;
 use App\Repository\TagRepository;
 use App\Repository\CommentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\CategoryRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -91,10 +94,24 @@ class ProductController extends AbstractController
     {
         $product = $this->productRepository->findOneBy(["id" => $idProduct]);
         $comments = $this->commentRepository->findBy(["product" => $product]);
-        $session = $request->getSession();
         return $this->render('frontend/pages/product.html.twig', [
             "product" => $product,
             "comments" => $comments
         ]);
+    }
+
+    #[Route('/ajout-commentaire/{idProduct}', name: 'add_comment_product')]
+    public function addComment(Request $request , EntityManagerInterface $em,$idProduct): Response
+    {
+        $note = $request->request->get('noteProduct');
+        $message = $request->request->get('messageComment');
+        $product = $this->productRepository->findOneBy(["id" => $idProduct]);
+        $createdComment = new DateTimeImmutable();
+        $user = $this->getUser();
+        $comment = new Comment();
+        $comment->setText($message)->setNote($note)->setCreatedAt($createdComment)->setUser($user)->setProduct($product);
+        $em->persist($comment);
+        $em->flush();
+        return $this->redirectToRoute('view_product',['idProduct' => $product->getId()]);
     }
 }

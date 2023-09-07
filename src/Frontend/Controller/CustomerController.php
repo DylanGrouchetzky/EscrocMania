@@ -117,7 +117,7 @@ class CustomerController extends AbstractController
             ->from($data['email'])
             ->to('escromania3993@outlook.fr')
             ->subject('Demande de contact')
-            ->html('<p>De : '.$data['firstName'].' '.$data['lastName'].'</p><p>Email: '.$data['email'].'</p><p>Message : <br><br> '.$data['message'].'</p><p>Ce message provient du site Escromania</p>');
+            ->html('<p>De : '.$data['firstName'].' '.$data['lastName'].'</p><p>Email: '.$data['email'].'</p><p>Message : <br><br> '.$data['message'].'</p><p>Ce message provient du site <a href="http://127.0.0.1:8000">Escromania</a></p>');
 
             $mailer->send($email);
             $this->addFlash('success', 'Votre message à bien était envoyé');

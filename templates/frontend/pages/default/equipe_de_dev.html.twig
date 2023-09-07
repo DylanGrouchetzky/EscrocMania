@@ -1,0 +1,52 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}L'équipe{% endblock %}
+{% block body %}
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section font-f-special">L'équipe</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+       <div class="row my-5">
+            <div class="col-6">
+                <img src="{{asset('img/nico.jpg')}}" alt="" class="img-groupe-dev">
+            </div>
+            <div class="col-6 d-flex align-items-center">
+                <div>
+                    <h2>Nicolas GRITTE</h2>
+                    <h4>Notre petit halfling</h4>
+                    <p>
+                        Ce petit être à l'apparence banale (Image à l'appui à gauche) ne sert pas à grand-chose me dirait vous.<br>
+                        Et ... <strong class="f-13r">Vous avez raison!!!</strong> <br>
+                        Il ne fait qu'apporter sa touche personnelle au site, ainsi que son bon humour et sa persévérance pour lui permettre de 
+                        développer une partie du site malgré la grosseur des touches de son clavier. Il a même eux des idées intéressantes pour les fonctionnalités
+                        et le fonctionnement du site. Et ... mais ... enfaite ... <strong>il sert à quelque chose au final !</strong>
+                    </p>
+                </div>
+            </div>
+       </div>
+       <div class="row my-5">
+            <div class="col-6 d-flex align-items-center">
+                <div>
+                    <h2>Dylan GROUCHETZKY</h2>
+                    <h4>Notre nécromancien ridicule</h4>
+                    <p>
+                       Nécromancien a l'allure ridicule (Image à l'appui à droite) fait plus rire qu'autre choses. <br>
+                       Tout à cause d'un masque ridicule qu'il ne peut plus enlever car il est collé... <strong>Lui non plus ne doit pas servir à grand-chose...</strong> <br>
+                       Et pourtant, grâce à sa puissante magie, il arrive à ressusciter les codes morts, ce qui à permettre au site de pouvoir revenir d'entre les morts
+                       plus d'une fois. Il a même réussi l'exploit de vous faire lire ces quelques lignes de présentation. <br>
+                       Hum... lui aussi ... <strong>est utile au final !</strong> 
+                    </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <img src="{{asset('img/dylan.jpg')}}" alt="" class="img-groupe-dev">
+            </div>
+       </div>
+    </div>
+</div>
+
+{% endblock %}
