@@ -34,6 +34,7 @@ class AppExtension extends AbstractExtension{
             new TwigFunction("getLastArticle", [$this, "getLastArticle"]),
             new TwigFunction("getTags", [$this, "getTags"]),
             new TwigFunction("getNoteGeneral", [$this, "getNoteGeneral"]),
+            new TwigFunction("numberArticleInBAsket", [$this, "numberArticleInBAsket"]),
         ];
     }
 
