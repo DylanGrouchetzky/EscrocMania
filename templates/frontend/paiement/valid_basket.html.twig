@@ -1,0 +1,55 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}Recherche{% endblock %}
+{% block body %}
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section font-f-special">Paiement</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <div class="row">
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket-1">
+                <div class="text-center f-12r">
+                    <p class="mb-0"><i class="feather-shopping-cart"></i></p>
+                    <p class="mb-0">1. Panier</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket">
+                <div class="text-center f-12r">
+                    <p><i class="feather-file-text"></i></p>
+                    <p>2. Ma Commande</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket">
+                <div class="text-center f-12r">
+                    <p><i class="feather-credit-card"></i></p>
+                    <p>3. Paiement</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket bg-card-red">
+                <div class="text-center f-12r">
+                    <p><i class="feather-check-circle"></i></p>
+                    <p>4. Validation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center my-5">
+    <div class="col-4">
+        {% for message in app.flashes('success') %}
+            <div 
+                style="color: green;
+                    border: 2px green solid;
+                    text-align: center;
+                    padding: 5px;margin-bottom: 10px;">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <p>Merci beaucoup pour votre achat <a href="{{path('home')}}">retourner a la page d'accueil</a></p>
+    </div>
+</div>
+{% endblock %}

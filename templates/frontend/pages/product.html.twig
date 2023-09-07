@@ -21,11 +21,23 @@
                             {{ message }}
                         </div>
                     {% endfor %}
+                    <div class="d-flex justify-content-between">
                     <h2>{{product.name}}</h2>
+                    {% if comments|length > 0 %}
+                        <p class="f-15r" style="font-weight:bold;">Note géneral {{getNoteGeneral(product.id)}}/5</p>
+                    {% endif %}
+                    </div>
                     <p>{{product.description}}</p>
-                    <p style="font-size: 2rem;">Prix : {{product.price / 100 }}€</p>
-                    <div class="d-flex justify-content-end">
-                        <a href="{{path('panier_add',{'id':product.id})}}" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</a>
+                    <p class="f-2r">Prix : {{product.price / 100 }}€</p>
+                    <div>
+                        <form action="{{path('panier_add',{'id':product.id})}}" method="post" class="row">
+                            <div class="col-3">
+                                <input type="number" name="quantityProductToCart" id="quantityProductToCart" min="1" max="{{product.quantity}}" class="form-control" value="1">
+                            </div>
+                            <div class="col-5">
+                                <button type="submit" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -56,27 +68,25 @@
     </div>
 </div>
 
-{% include "frontend/_parts/lastArticle.html.twig" %}
+{% include "frontend/_parts/lastArticle.html.twig" with {'title' : 'Dernier article rentrer' } %}
 
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <h2 class="mb-4">Commentaire sur ce produit</h2>
         {% if comments|length > 0 %}
-            {% if app.user %}
-                <a href="#" class="btn btn-primary"><i class="feather-plus"></i> Ajouter un commentaire</a>
-            {% endif %}
             <div class="accordion" id="accordionExample">
-                {% for comment in comment %}
+                {% set idUserComment = [] %}
+                {% for comment in comments %}
                     <div class="accordion-item">
                         <h2 class="accordion-header">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             Commentaire de {{comment.user.pseudo}}
                         </button>
                         </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
                                 <div class="d-flex justify-content-between">
-                                    <p>Le {{comment.created_at}}</p>
+                                    <p>Le {{comment.createdAt|date("m/d/Y")}}</p>
                                 </div>
                                 <p>Note {{comment.note}}/5</p>
                                 <p>
@@ -85,16 +95,53 @@
                             </div>
                         </div>
                     </div>
+                    {% set idUserComment = idUserComment|merge([comment.user.id]) %}
                 {% endfor %}
+                {% if app.user %}
+                    {% if app.user.id in idUserComment %}
+                    {% else %}
+                        <button class="btn btn-primary my-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="feather-plus"></i> Ajouter un commentaire</button>
+                    {% endif %}
+                {% endif %}
             </div>
         {% else %}
             <p>Pas encore de commentaire pour se produit</p>
             {% if app.user %}
-                <a href="#" class="btn btn-primary"><i class="feather-plus"></i> Ajouter un commentaire</a>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="feather-plus"></i> Ajouter un commentaire</button>
             {% else %}
                 <p>Il faut être connecter pour mettre un commentaire</p>
             {% endif %}
         {% endif %}
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{path('add_comment_product',{'idProduct':product.id})}}" method="post">
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <label for="noteProduct">Note(max : 5) :</label>
+                                    <input type="number" class="form-control" min="0" max="5" name="noteProduct" id="noteProduct">
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <label for="messageComment">Message :</label>
+                                    <textarea class="form-control" name="messageComment" id="messageComment" cols="30" rows="10"></textarea>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button type="button" class="btn btn-secondary mx-3" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary"><i class="feather-chevrons-right"></i> Commenter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

@@ -1,0 +1,67 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}Panier{% endblock %}
+{% block body %}
+<div class="row bg-hero-section">
+    <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+        <div class="block-title">
+            <h1 class="title-hero-section font-f-special">Votre Panier</h1>
+        </div>
+    </div>
+</div>
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <div class="row">
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket-1">
+                <div class="text-center f-12r">
+                    <p class="mb-0"><i class="feather-shopping-cart"></i></p>
+                    <p class="mb-0">1. Panier</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket bg-card-red">
+                <div class="text-center f-12r">
+                    <p><i class="feather-file-text"></i></p>
+                    <p>2. Ma Commande</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket">
+                <div class="text-center f-12r">
+                    <p><i class="feather-credit-card"></i></p>
+                    <p>3. Paiement</p>
+                </div>
+            </div>
+            <div class="col-3 p-5 d-flex align-items-center justify-content-center border-block-basket">
+                <div class="text-center f-12r">
+                    <p><i class="feather-check-circle"></i></p>
+                    <p>4. Validation</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4 p-5 mx-auto">
+                <div class="border-block-basket-1 p-3">
+                    <h2>Résumer du panier</h2>
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <td class="text-right">Produit total :</td>
+                                <td>{{quantityTotal}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Prix total hors taxe : </td>
+                                <td>{{total / 100}}€</td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td class="text-right">Prix total : </td>
+                                <td>{{total / 100}}€</td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <a href="{{path('app_stripe',{'step':'paiement'})}}" class="btn btn-lg btn-primary w-100"><i class="feather-chevrons-right"></i> Paiement</a>
+                </div>
+            </div>
+        </div>  
+    </div>
+</div>
+{% endblock %}

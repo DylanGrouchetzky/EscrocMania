@@ -2,6 +2,8 @@
 
 namespace App\Frontend\Controller;
 
+use App\Entity\ContentPage;
+use App\Repository\ContentPageRepository;
 use App\Repository\TagRepository;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,31 +23,31 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function home(): Response
     {
-        $tags = $this->tagRepository->findAll();
+        $tags = $this->tagRepository->findBy([],[],8);
         $lastsProducts = $this->productRepository->findBy([], ["published_at" => "DESC"], 15);
         $discountsProducts = $this->productRepository->getRandomProduct(4);
         return $this->render('frontend/pages/home.html.twig', [
             'tags' => $tags,
             'lastsProducts' => $lastsProducts,
-            'discountsProducts' => $discountsProducts
+            'discountsProducts' => $discountsProducts,
         ]);
     }
 
     #[Route('/mentions-legales', name: 'mention_legales')]
     public function mentionsLegale(): Response
     {
-        return $this->render('frontend/pages/mentions_legales.html.twig');
+        return $this->render('frontend/pages/default/mentions_legales.html.twig');
     }
 
     #[Route('/politique-de-confidentialite', name: 'politique_de_confidentialite')]
     public function politiqueDeConfidentialite(): Response
     {
-        return $this->render('frontend/pages/politique_de_confidentialite.html.twig');
+        return $this->render('frontend/pages/default/politique_de_confidentialite.html.twig');
     }
 
-    #[Route('/search-product', name: 'search_product')]
-    public function searcProduct(): Response
+    #[Route('/equipe-de-dev', name: 'equipe_dev')]
+    public function equipeDev(): Response
     {
-        return $this->render('frontend/pages/search.html.twig');
+        return $this->render('frontend/pages/default/equipe_de_dev.html.twig');
     }
 }
