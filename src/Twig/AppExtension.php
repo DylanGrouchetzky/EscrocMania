@@ -32,6 +32,7 @@ class AppExtension extends AbstractExtension{
         return [
             new TwigFunction("getCategory", [$this, "getCategory"]),
             new TwigFunction("getLastArticle", [$this, "getLastArticle"]),
+            new TwigFunction("getDiscountsArticles", [$this, "getDiscountsArticles"]),
             new TwigFunction("getTags", [$this, "getTags"]),
             new TwigFunction("getNoteGeneral", [$this, "getNoteGeneral"]),
             new TwigFunction("numberArticleInBAsket", [$this, "numberArticleInBAsket"]),
@@ -45,6 +46,10 @@ class AppExtension extends AbstractExtension{
 
     public function getLastArticle(){
         return $this->productRepository->findBy([], ["published_at" => "DESC"], $this->params->get('numberLastArticle'));
+    }
+
+    public function getDiscountsArticles(){
+        return $this->productRepository->getRandomProduct(4);
     }
 
     public function getTags(){

@@ -10,7 +10,11 @@
                             <li class="splide__slide">
                                 <div  class="card-last-article">
                                     <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-last-article">
-                                        <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
+                                        {% if product.pictures|length > 0 %}
+                                            <img src="{{asset('img/products/' ~ product.pictures|first.file)}}" alt="" class="img-carousel-last-article">
+                                        {% else %}
+                                            <img src="{{asset('img/card-last-article.jpg')}}" alt="" class="img-carousel-last-article">
+                                        {% endif %}
                                         <div class="row mt-3">
                                             <div class="col-6">
                                                 <p class="mb-0">{{product.name}}</p>

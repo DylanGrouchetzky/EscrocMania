@@ -33,13 +33,30 @@
         <div class="row" id="container-product">
             {% if products|length > 0 %}
                 {% for product in products %}
-                    <div class="col-3 mb-4">   
+                    {% if product.pictures|length > 0 %}
+                        <div class="col-3 mb-4">   
+                            <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
+                                <div class="d-flex align-items-center justify-content-center card-tag" style="background-image: url('{{asset('img/products/' ~ product.pictures|first.file)}}');">
+                                    <p class="f-2r text-white">{{product.name}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="col-3 mb-4">   
+                            <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
+                                <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
+                                    <p class="f-2r">{{product.name}}</p>
+                                </div>
+                            </a>
+                        </div>
+                    {% endif %}
+                    {# <div class="col-3 mb-4">   
                         <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
                             <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
                                 <p class="f-2r">{{product.name}}</p>
                             </div>
                         </a>
-                    </div>
+                    </div> #}
                 {% endfor %}
                 <div class="col-12 d-flex justify-content-center">
                     <button class="mx-5 pagination-search" disabled><i class="feather-chevron-left"></i></button>

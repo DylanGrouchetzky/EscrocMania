@@ -12,7 +12,11 @@
     <div class="col-10 mx-auto">
         <div class="row">
             <div class="col-7">
-                <img src="{{asset('img/final-fantasy.jpg')}}" alt="" class="img-presentation-product">
+                {% if product.pictures|length > 0 %}
+                    <img src="{{asset('img/products/' ~ product.pictures|first.file)}}" alt="" class="img-presentation-product">
+                {% else %}
+                    <img src="{{asset('img/final-fantasy.jpg')}}" alt="" class="img-presentation-product">
+                {% endif %}
             </div>
             <div class="col-5 d-flex align-items-center">
                 <div>
@@ -24,7 +28,7 @@
                     <div class="d-flex justify-content-between">
                     <h2>{{product.name}}</h2>
                     {% if comments|length > 0 %}
-                        <p class="f-15r" style="font-weight:bold;">Note géneral {{getNoteGeneral(product.id)}}/5</p>
+                        <p class="f-15r" style="font-weight:bold;">Note générale {{getNoteGeneral(product.id)}}/5</p>
                     {% endif %}
                     </div>
                     <p>{{product.description}}</p>
@@ -71,6 +75,21 @@
         </div>
     </div>
 </div>
+
+{% if product.pictures|length > 1 %}
+    <div class="row my-5">
+        <div class="col-10 mx-auto">
+            <div class="row">
+                {% for picture in product.pictures %}
+                    <div class="col-3">
+                        <img src="{{asset('img/products/' ~ picture.file)}}" alt="" class="promo-product">
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <h2 class="mb-5">Dans le même genre</h2>
@@ -132,11 +151,11 @@
                 {% endif %}
             </div>
         {% else %}
-            <p>Pas encore de commentaire pour se produit</p>
+            <p>Pas encore de commentaire pour ce produit</p>
             {% if app.user %}
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="feather-plus"></i> Ajouter un commentaire</button>
             {% else %}
-                <p>Il faut être connecter pour mettre un commentaire</p>
+                <p>Il faut être connecté pour mettre un commentaire</p>
             {% endif %}
         {% endif %}
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

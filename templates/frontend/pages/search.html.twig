@@ -40,13 +40,30 @@
     <div class="col-11 mx-auto">
         <div class="row" id="container-product">
             {% for product in products %}
-                <div class="col-3 mb-4">   
+                {# <div class="col-3 mb-4">   
                     <a href="" class="link-card">
                         <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
                             <p style="font-size: 2rem;">{{product.name}}</p>
                         </div>
                     </a>
-                </div>
+                </div> #}
+                {% if product.pictures|length > 0 %}
+                    <div class="col-3 mb-4">   
+                        <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
+                            <div class="d-flex align-items-center justify-content-center card-tag" style="background-image: url('{{asset('img/products/' ~ product.pictures|first.file)}}');">
+                                <p class="f-2r text-white">{{product.name}}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="col-3 mb-4">   
+                        <a href="{{path('view_product',{'idProduct':product.id})}}" class="link-card">
+                            <div class="d-flex align-items-center justify-content-center card-tag bg-card-bleu">
+                                <p class="f-2r">{{product.name}}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endif %}
             {% endfor %}
             {% if (terms is not defined) or (tagSearch is not defined) or (categorySearch is not defined) %}
                 {% if products|length == 16 %}

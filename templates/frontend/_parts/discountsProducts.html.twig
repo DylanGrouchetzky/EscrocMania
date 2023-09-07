@@ -1,0 +1,31 @@
+{% set discountsProducts = getDiscountsArticles() %}
+{% if discountsProducts|length > 0 %}
+<div class="row my-5">
+    <div class="col-10 mx-auto">
+        <h2 class="mb-5">Nos Promos Actuelles</h2>
+        <div class="row">
+                {% for product in discountsProducts %}
+                    <div class="col-3">
+                        <a href="{{path('view_product',{'idProduct':product.id})}}"  class="link-last-article">
+                            {# <img src="{{asset('img/product.jpg')}}" alt="" class="promo-product"> #}
+                            {% if product.pictures|length > 0 %}
+                                <img src="{{asset('img/products/' ~ product.pictures|first.file)}}" alt="" class="promo-product">
+                            {% else %}
+                                <img src="{{asset('img/product.jpg')}}" alt="" class="promo-product">
+                            {% endif %}
+                            <div class="row my-5">
+                                <div class="col-6">
+                                    <p>{{product.name}}</p>
+                                    <p>Prix <span class="price-barrer mx-1">{{product.price  / 100 }}€</span> {{ (product.price  / 100) * (1 - (product.discount / 100)) }} €</p>
+                                </div>
+                                <div class="col-6 d-flex align-items-center">
+                                    <button class="btn btn-primary">Voir le produit</button>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
