@@ -35,9 +35,13 @@ class ProductCrudController extends AbstractCrudController
             DateTimeField::new('published_at'),
             ImageField::new('tmp')->onlyOnDetail()->hideOnDetail(),
             CollectionField::new('pictures')
-            ->onlyOnIndex()
+            ->setEntryIsComplex()
+            ->onlyOnForms()
             ->setTemplatePath('admin/_parts/pictureProduct.html.twig')
             ->useEntryCrudForm(PictureCrudController::class),
+            CollectionField::new('pictures')
+            ->onlyOnIndex()
+            ->setTemplatePath('admin/_parts/pictureProduct.html.twig'),
             AssociationField::new('category')
         ];
     }

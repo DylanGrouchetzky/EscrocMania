@@ -19,7 +19,7 @@ class CategoryCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('name', 'Nom'),
             TextEditorField::new('description', 'Description'),
             AssociationField::new('products')

@@ -22,6 +22,15 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
+        if(!$this->getUser()){
+            
+            return $this->redirectToRoute('home');
+        }
+
+        if(!$this->isGranted("ROLE_ADMIN", $this->getUser())){
+
+            return $this->redirectToRoute('home');
+        }
         // return parent::index();
 
         // Option 1. You can make your dashboard redirect to some common page of your backend
@@ -50,7 +59,8 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         return [
-            MenuItem::linkToDashboard('Dashboard', 'fa fa-home'),
+            MenuItem::linkToDashboard('Dashboard', 'fa fa-clipboard'),
+            MenuItem::linkToRoute('Front','fa fa-home','home'),
 
             MenuItem::section('Magasin'),
             MenuItem::linkToCrud('Produits', 'fa fa-file-text', Product::class),
