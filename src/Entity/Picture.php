@@ -26,6 +26,22 @@ class Picture
     #[ORM\Column(length: 255)]
     private ?string $slug = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotNull]
+    private ?string $file = null;
+
+    public function getFile(): ?string
+    {
+        return $this->file;
+    }
+
+    public function setFile(string $file): static
+    {
+        $this->file = $file;
+
+        return $this;
+    }
+    
     public function getId(): ?int
     {
         return $this->id;
