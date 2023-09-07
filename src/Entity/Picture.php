@@ -16,15 +16,15 @@ class Picture
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $path = null;
+    // #[ORM\Column(length: 255)]
+    // private ?string $path = null;
 
     #[ORM\ManyToOne(inversedBy: 'pictures')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $slug = null;
+    // #[ORM\Column(length: 255)]
+    // private ?string $slug = null;
 
     #[ORM\Column(length: 255)]
     #[Assert\NotNull]
@@ -59,17 +59,17 @@ class Picture
         return $this;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
+    // public function getPath(): ?string
+    // {
+    //     return $this->path;
+    // }
 
-    public function setPath(string $path): static
-    {
-        $this->path = $path;
+    // public function setPath(string $path): static
+    // {
+    //     $this->path = $path;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 
     public function getProduct(): ?Product
     {
@@ -83,15 +83,15 @@ class Picture
         return $this;
     }
 
-    public function getSlug(): ?string
-    {
-        return $this->slug;
-    }
+    // public function getSlug(): ?string
+    // {
+    //     return $this->slug;
+    // }
 
-    public function setSlug(string $slug): static
-    {
-        $this->slug = $slug;
+    // public function setSlug(string $slug): static
+    // {
+    //     $this->slug = $slug;
 
-        return $this;
-    }
+    //     return $this;
+    // }
 }

@@ -21,18 +21,13 @@ class PictureCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name', 'Nom'),
-            TextField::new('path'),
-            TextField::new('slug'),
+            // TextField::new('path'),
+            // TextField::new('slug'),
             ImageField::new('file')->onlyOnIndex()->setBasePath('/img/products/'),
             ImageField::new('file')
             ->onlyOnForms()
             ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
             ->setUploadDir('public/img/products/'),
-            // ImageField::new('image')
-            // ->setBasePath('img/products/')
-            // ->setUploadDir('public/img/products')
-            // ->setUploadedFileNamePattern('[slug]-[contenthash].[extension]')
-            // ->setRequired(false),
             AssociationField::new('product', 'Produit')
         ];
     }
