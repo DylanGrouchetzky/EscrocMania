@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class ProductController extends AbstractController
 {
@@ -90,13 +91,32 @@ class ProductController extends AbstractController
     }
 
     #[Route('/produit/{idProduct}', name: 'view_product')]
-    public function viewProduct(Request $request ,$idProduct): Response
+    public function viewProduct(Request $request, SessionInterface $session, ProductRepository $productRepository ,$idProduct): Response
     {
         $product = $this->productRepository->findOneBy(["id" => $idProduct]);
         $comments = $this->commentRepository->findBy(["product" => $product]);
+        $panier = $session->get('panier', []);
+        $panierWithData = [];
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'product' => $productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+        
+        $totalAmount = 0;
+        $numberOfItems = 0;
+        foreach ($panierWithData as $item) {
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $totalAmount += $totalItem;
+            $numberOfItems = $numberOfItems + $item['quantity'];
+        }
+        $totalAmount = $totalAmount / 100;
         return $this->render('frontend/pages/product.html.twig', [
             "product" => $product,
-            "comments" => $comments
+            "comments" => $comments,
+            'numberOfItems' => $numberOfItems,
+            'totalAmount' => $totalAmount,
         ]);
     }
 

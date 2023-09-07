@@ -128,18 +128,39 @@ class BasketController extends AbstractController
 
 
 
-    #[Route('/add/{id}', name: 'add')]
-    public function panierAdd(SessionInterface $session, Request $request, $id)
+    #[Route('/add', name: 'add')]
+    public function panierAdd(SessionInterface $session, Request $request, ProductRepository $productRepository)
     {
+        $data = json_decode($request->getContent(), true);
+        $id = $data['productId'];
+        $quantity = $data['quantity'];
         $panier = $session->get('panier', []);
         if (!empty($panier[$id])) {
-            $panier[$id] = $panier[$id] + $request->request->get('quantityProductToCart');
+            $panier[$id] = $panier[$id] + $quantity;
         }else{
-            $panier[$id] = $request->request->get('quantityProductToCart');
+            $panier[$id] = $quantity;
         }
+        $panierWithData = [];
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'product' => $productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+        $totalAmount = 0;
+        $numberOfItems = 0;
+        foreach ($panierWithData as $item) {
+            $totalItem = $item['product']->getPrice() * $item['quantity'];
+            $totalAmount += $totalItem;
+            $numberOfItems = $numberOfItems + $item['quantity'];
+        }
+        $totalAmount = $totalAmount / 100;
         $session->set('panier', $panier);
        $this->addFlash('success', 'Le produit à bien était ajouté au panier');
-       return $this->redirectToRoute('view_product',['idProduct' => $id]);
+       return $this->json([
+        'numberOfItems' => $numberOfItems,
+        'totalAmount' => $totalAmount,
+    ]);
     }
 
     #[Route('/remove/{id}', name: 'remove')]

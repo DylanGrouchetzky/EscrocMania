@@ -30,14 +30,41 @@
                     <p>{{product.description}}</p>
                     <p class="f-2r">Prix : {{product.price / 100 }}€</p>
                     <div>
-                        <form action="{{path('panier_add',{'id':product.id})}}" method="post" class="row">
+                        <div action="{{path('panier_add',{'id':product.id})}}" method="post" class="row">
                             <div class="col-3">
                                 <input type="number" name="quantityProductToCart" id="quantityProductToCart" min="1" max="{{product.quantity}}" class="form-control" value="1">
                             </div>
                             <div class="col-5">
-                                <button type="submit" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
+                                <button id="addToCartButton" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
                             </div>
-                        </form>
+                        </div>
+                        <script>
+                            document.getElementById('addToCartButton').addEventListener('click', function(){
+                                let productId = {{product.id}}
+                                let quantity = 1
+                                fetch('{{path('panier_add')}}', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                    },
+                                    body: JSON.stringify({ productId, quantity }),
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Mettez à jour l'affichage du nombre d'articles dans le panier et du total d'achat en utilisant les données reçues.
+                                    var numberOfItems = data.numberOfItems; // Remplacez ceci par la clé correcte dans votre réponse JSON.
+                                    var totalAmount = data.totalAmount; // Remplacez ceci par la clé correcte dans votre réponse JSON.
+                                    let span = document.getElementById('numberOfItemsTotal')
+                                    span.innerHTML = numberOfItems
+                                    let span2 = document.getElementById('totalAmountTotal')
+                                    span2.innerHTML = totalAmount
+                                    // Mettez à jour votre interface utilisateur avec numberOfItems et totalAmount.
+                                })
+                                .catch(error => {
+                                    console.error('Une erreur s\'est produite :', error);
+                                });
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
