@@ -2,12 +2,16 @@
 
 namespace App\Frontend\Controller;
 
+use App\Entity\Order;
+use App\Entity\RowOrder;
 use App\Repository\ProductRepository;
+use DateTimeImmutable;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/panier',name:'panier_')]
 class BasketController extends AbstractController
@@ -41,19 +45,39 @@ class BasketController extends AbstractController
     }
 
     #[Route('/resume-basket/{quantityTotal}/{step}', name: 'resum')]
-    public function panierResume(SessionInterface $session, $quantityTotal = null, $step = null): Response
+    public function panierResume(SessionInterface $session, EntityManagerInterface $em, $quantityTotal = null, $step = null): Response
     {
         if ($step != 'commande') {
             return $this->redirectToRoute('panier_home');
         }
+
+        $user = $this->getUser();
+        $order = new Order;
+        $order->setStep(0)
+        ->setCreatedAt(new DateTimeImmutable())
+        ->setUser($user);
+
         $panier = $session->get('panier', []);
         $panierWithData = [];
         foreach ($panier as $id => $quantity) {
+            $product = $this->productRepository->find($id);
             $panierWithData[] = [
-                'product' => $this->productRepository->find($id),
+                'product' => $product,
                 'quantity' => $quantity
             ];
+            $row = new RowOrder();
+            $row->setNameProduct($product->getName())
+            ->setDescriptionProduct($product->getDescription())
+            ->setQuantity($quantity)
+            ->setUnitPrice($product->getPrice())
+            ->setProduct($product)
+            ->setBasketOrder($order);
+
+            $em->persist($row);
         }
+        $em->persist($order);
+        $em->flush();
+        
         $total = 0;
         foreach ($panierWithData as $item) {
             $totalItem = $item['product']->getPrice() * $item['quantity'];
