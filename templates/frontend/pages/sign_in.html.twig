@@ -12,6 +12,11 @@
     <div class="col-10 mx-auto">
         <div class="row">
             <div class="col-6">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success">
+                        {{ message }}
+                    </div>
+                {% endfor %}
                 <p>Veuillez rentrer les informations suivantes :</p>
                 {{form_start(signInForm)}}
                     <div class="row">

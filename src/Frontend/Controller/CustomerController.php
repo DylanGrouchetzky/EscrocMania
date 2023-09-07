@@ -75,7 +75,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/inscription', name: 'sign_in')]
-    public function signIn(Request $request): Response
+    public function signIn(Request $request, MailerInterface $mailer): Response
     {
         $signInForm = $this->createForm(SignInType::class);
         $signInForm->handleRequest($request);
@@ -97,8 +97,14 @@ class CustomerController extends AbstractController
             ->setModifiedAt($createdUser);
             $this->em->persist($user);
             $this->em->flush();
-            $this->addFlash('success', 'Votre compte a bien était crée');
-            return $this->redirectToRoute('app_login');
+            $this->addFlash('success', 'Un email à était envoyer sur votre boîte mail, veuillez cliquez sur le lien');
+            $email = (new Email())
+            ->from('escromania3993@outlook.fr')
+            ->to($user->getEmail())
+            ->subject('Inscription à Escromania')
+            ->html('<p>Bonjour, '.$user->getPseudo().' <br><br> Vous venez de vous inscrire sur notre site internet, pour confirmer votre inscription veuiller cliquer sur le lien suivant:<a href="http://localhost:8000/login" target="_blank" rel="noopener">Activer mon compte</a> <br> Ci vous n\êtes pas à l\'origine de cette inscription, ne cliquez pas sur le lien pour votre sécurité</p><p>Ce message provient du site <a href="http://127.0.0.1:8000">Escromania</a></p>');
+            $mailer->send($email);
+            return $this->redirectToRoute('sign_in');
         }
 
         return $this->render('frontend/pages/sign_in.html.twig',[

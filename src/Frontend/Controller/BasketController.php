@@ -4,7 +4,9 @@ namespace App\Frontend\Controller;
 
 use App\Entity\Order;
 use App\Entity\RowOrder;
+use App\Repository\OrderRepository;
 use App\Repository\ProductRepository;
+use App\Repository\RowOrderRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +19,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class BasketController extends AbstractController
 {
     private $productRepository;
+    private $orderRepository;
+    private $rowOrderRepository;
 
-    public function __construct( ProductRepository $productRepository){
+    public function __construct( ProductRepository $productRepository, OrderRepository $orderRepository,RowOrderRepository $rowOrderRepository){
         $this->productRepository = $productRepository;
+        $this->orderRepository = $orderRepository;
+        $this->rowOrderRepository = $rowOrderRepository;
     }
 
     #[Route('/home', name: 'home')]
@@ -52,32 +58,62 @@ class BasketController extends AbstractController
         }
 
         $user = $this->getUser();
-        $order = new Order;
-        $order->setStep(0)
-        ->setCreatedAt(new DateTimeImmutable())
-        ->setUser($user);
-
-        $panier = $session->get('panier', []);
+        $orderExist = $this->orderRepository->findOneBy(['user' => $user, 'step' => 0]);
         $panierWithData = [];
-        foreach ($panier as $id => $quantity) {
-            $product = $this->productRepository->find($id);
-            $panierWithData[] = [
-                'product' => $product,
-                'quantity' => $quantity
-            ];
-            $row = new RowOrder();
-            $row->setNameProduct($product->getName())
-            ->setDescriptionProduct($product->getDescription())
-            ->setQuantity($quantity)
-            ->setUnitPrice($product->getPrice())
-            ->setProduct($product)
-            ->setBasketOrder($order);
-
-            $em->persist($row);
+        if (!$orderExist) {
+            $order = new Order;
+            $order->setStep(0)
+            ->setCreatedAt(new DateTimeImmutable())
+            ->setUser($user);
+    
+            $panier = $session->get('panier', []);
+            foreach ($panier as $id => $quantity) {
+                $product = $this->productRepository->find($id);
+                $panierWithData[] = [
+                    'product' => $product,
+                    'quantity' => $quantity
+                ];
+    
+                $row = new RowOrder();
+                $row->setNameProduct($product->getName())
+                ->setDescriptionProduct($product->getDescription())
+                ->setQuantity($quantity)
+                ->setUnitPrice($product->getPrice())
+                ->setProduct($product)
+                ->setBasketOrder($order);
+    
+                $em->persist($row);
+            }
+            $em->persist($order);
+            $em->flush();
+        }else{
+            $rowOrder = $this->rowOrderRepository->findBy(['basketOrder' => $orderExist]);
+            for ($i=0; $i < count($rowOrder); $i++) { 
+                $orderExist->removeRowOrder($rowOrder[$i]);
+                $em->remove($rowOrder[$i]);
+                $em->flush();
+            }
+            
+            $panier = $session->get('panier', []);
+            foreach ($panier as $id => $quantity) {
+                $product = $this->productRepository->find($id);
+                $panierWithData[] = [
+                    'product' => $product,
+                    'quantity' => $quantity
+                ];
+    
+                $row = new RowOrder();
+                $row->setNameProduct($product->getName())
+                ->setDescriptionProduct($product->getDescription())
+                ->setQuantity($quantity)
+                ->setUnitPrice($product->getPrice())
+                ->setProduct($product)
+                ->setBasketOrder($orderExist);
+    
+                $em->persist($row);
+                $em->flush();
+            }
         }
-        $em->persist($order);
-        $em->flush();
-        
         $total = 0;
         foreach ($panierWithData as $item) {
             $totalItem = $item['product']->getPrice() * $item['quantity'];

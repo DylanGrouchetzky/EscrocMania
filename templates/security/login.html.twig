@@ -24,11 +24,7 @@
                             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
                         </div>
                     {% endif %}
-                    {% for message in app.flashes('success') %}
-                        <div class="alert alert-success">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
+                    
 
                     <h1 class="h3 mb-4 font-weight-normal">Information de connection</h1>
                     <p class="mb-5">Veuillez rentrer vos information pour vous connecter : </p>

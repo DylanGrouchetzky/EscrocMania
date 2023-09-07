@@ -18,7 +18,7 @@ class StripeController extends AbstractController
     public function index(SessionInterface $session, ProductRepository $productRepository, $step = null): Response
     {
         if ($step != 'paiement') {
-            return $this->redirectToRoute('panier_home');
+            return $this->redirectToRoute('app_stripe_charge');
         }
         $panier = $session->get('panier', []);
         $panierWithData = [];
@@ -40,19 +40,9 @@ class StripeController extends AbstractController
     }
  
  
-    #[Route('/stripe/create-charge/{step}', name: 'app_stripe_charge', methods: ['POST'])]
-    public function createCharge(Request $request, SessionInterface $session, MailerInterface $mailer, $step)
+    #[Route('/payement-is-succes', name: 'app_stripe_charge')]
+    public function createCharge(SessionInterface $session, MailerInterface $mailer)
     {
-        if ($step != 'finish') {
-            return $this->redirectToRoute('panier_home');
-        }
-        Stripe\Stripe::setApiKey($_ENV["STRIPE_SECRET"]);
-        Stripe\Charge::create ([
-                "amount" => 5 * 100,
-                "currency" => "usd",
-                "source" => $request->request->get('stripeToken'),
-                "description" => "Binaryboxtuts Payment Test"
-        ]);
         $this->addFlash(
             'success',
             'Le payement a bien était éffectué'

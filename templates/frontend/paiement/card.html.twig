@@ -52,7 +52,7 @@
                     </div>
                 {% endfor %}
 
-                <form id='checkout-form' method='post' action="{{ path('app_stripe_charge',{'step':'finish'}) }}">             
+                <form id='checkout-form' method='post' action="{{ path('app_stripe_charge') }}">             
                     <input type='hidden' name='stripeToken' id='stripe-token-id'>                              
                     <label for="card-element" class="mb-5">Remplissez le champs suivant pour payer : </label>
                     <br>
