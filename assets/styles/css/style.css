@@ -94,6 +94,7 @@ background-color: var(--color-red-clair);font-size: 1.3rem;transition: all ease 
     width: 100%;
     object-fit: cover;}
 .img-groupe-dev{height: 30rem;width: 100%;object-fit: cover;}
+.pictures-products-other{border-radius: 50%;object-position: center center;height: 10rem;object-fit: cover;width: 10rem;}
 
 /* PICTURE */
 /* SPLIDE */

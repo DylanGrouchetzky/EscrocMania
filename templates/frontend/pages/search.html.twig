@@ -10,20 +10,13 @@
 </div>
 <div class="row my-5">
     <div class="col-10 mx-auto">
-        <form action="{{path('search_result')}}" method="post" class="row">
+        <form action="{{path('search_result')}}" method="post" class="row mx-auto">
+            <div class="col-2"></div>
             <div class="col-3">
                 <select class="form-select" aria-label="Default select example" name="selectCategory">
                     <option selected> -- Category -- </option>
                     {% for category in getCategory() %}
                         <option value="{{category.id}}" {% if categorySearch is defined %}{% if category.id == categorySearch %}selected{% endif %}{% endif %}>{{category.name}}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-3">
-                <select class="form-select" aria-label="Default select example"  name="selectTag">
-                    <option selected> -- Tag -- </option>
-                    {% for tag in getTags() %}
-                        <option value="{{tag.id}}" {% if tagSearch is defined %}{% if tag.id == tagSearch %}selected{% endif %}{% endif %}>{{tag.name}}</option>
                     {% endfor %}
                 </select>
             </div>

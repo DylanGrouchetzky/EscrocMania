@@ -11,14 +11,14 @@
 <div class="row my-5">
     <div class="col-10 mx-auto">
         <div class="row">
-            <div class="col-7">
+            <div class="col-12 col-xl-6">
                 {% if product.pictures|length > 0 %}
-                    <img src="{{asset('img/products/' ~ product.pictures|first.file)}}" alt="" class="img-presentation-product">
+                    <img id="picture-product-main" src="{{asset('img/products/' ~ product.pictures|first.file)}}" alt="" class="img-presentation-product">
                 {% else %}
                     <img src="{{asset('img/final-fantasy.jpg')}}" alt="" class="img-presentation-product">
                 {% endif %}
             </div>
-            <div class="col-5 d-flex align-items-center">
+            <div class="col-12 col-xl-6 d-flex align-items-center">
                 <div>
                     {% for message in app.flashes('success') %}
                         <div class="alert alert-success">
@@ -35,13 +35,21 @@
                     <p class="f-2r">Prix : {{product.price / 100 }}€</p>
                     <div>
                         <div action="{{path('panier_add',{'id':product.id})}}" method="post" class="row">
-                            <div class="col-3">
-                                <input type="number" name="quantityProductToCart" id="quantityProductToCart" min="1" max="{{product.quantity}}" class="form-control" value="1">
-                            </div>
                             <div class="col-5">
                                 <button id="addToCartButton" class="btn btn-primary"><i class="feather-plus"></i> Ajouter au panier</button>
                             </div>
                         </div>
+                        {% if product.pictures|length > 1 %}
+                            <div class="row my-5">
+                                <div class="col-10 mx-auto">
+                                    <div class="d-flex flex-nowrap w-100">
+                                        {% for picture in product.pictures %}
+                                            <img src="{{asset('img/products/' ~ picture.file)}}" onclick="changePicture('{{asset('img/products/' ~ picture.file)}}')" class="pictures-products-other mx-3">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                         <script>
                             document.getElementById('addToCartButton').addEventListener('click', function(){
                                 let productId = {{product.id}}
@@ -75,20 +83,6 @@
         </div>
     </div>
 </div>
-
-{% if product.pictures|length > 1 %}
-    <div class="row my-5">
-        <div class="col-10 mx-auto">
-            <div class="row">
-                {% for picture in product.pictures %}
-                    <div class="col-3">
-                        <img src="{{asset('img/products/' ~ picture.file)}}" alt="" class="promo-product">
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
-{% endif %}
 
 <div class="row my-5">
     <div class="col-10 mx-auto">
@@ -192,6 +186,13 @@
 </div>
 {% endblock %}
 {% block addJS %}
+<script>
+function changePicture(image){
+    let pictureMain = document.getElementById('picture-product-main')
+    pictureMain.src = image
+}
+
+</script>
 <script>
   document.addEventListener( 'DOMContentLoaded', function() {
     var splide = new Splide( '.splide' , {

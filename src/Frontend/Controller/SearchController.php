@@ -69,14 +69,12 @@ class SearchController extends AbstractController
     public function searcResult(Request $request): Response
     {
         $idCategory = $request->request->get('selectCategory');
-        $idTag = $request->request->get('selectTag');
         $terms = $request->request->get('termsSearch');
-        $products = $this->productRepository->findBy(['category' => $idCategory],['published_at' => 'ASC']);
+        $products = $this->productRepository->getSearchProduct($idCategory, $terms);
 
         return $this->render('frontend/pages/search.html.twig',[
             'products' => $products,
             'categorySearch' => $idCategory,
-            'tagSearch' => $idTag,
             'terms' => $terms,
         ]);
     }

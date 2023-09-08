@@ -106,10 +106,13 @@ class ProductController extends AbstractController
         
         $totalAmount = 0;
         $numberOfItems = 0;
-        foreach ($panierWithData as $item) {
-            $totalItem = $item['product']->getPrice() * $item['quantity'];
-            $totalAmount += $totalItem;
-            $numberOfItems = $numberOfItems + $item['quantity'];
+        if (count($panierWithData) > 0) {
+            foreach ($panierWithData as $item) {
+                
+                $totalItem = $item['product']->getPrice() * $item['quantity'];
+                $totalAmount += $totalItem;
+                $numberOfItems = $numberOfItems + $item['quantity'];
+            }
         }
         $totalAmount = $totalAmount / 100;
         return $this->render('frontend/pages/product.html.twig', [

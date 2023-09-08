@@ -9,6 +9,7 @@ use App\Repository\ProductRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class HomeController extends AbstractController
 {
@@ -18,6 +19,23 @@ class HomeController extends AbstractController
     public function __construct(TagRepository $tagRepository, ProductRepository $productRepository){
         $this->tagRepository = $tagRepository;
         $this->productRepository = $productRepository;
+    }
+    
+    public function getNumberArticleInBasket(SessionInterface $session)
+    {
+        $panier = $session->get('panier', []);
+        $panierWithData = [];
+        foreach ($panier as $id => $quantity) {
+            $panierWithData[] = [
+                'product' => $this->productRepository->find($id),
+                'quantity' => $quantity
+            ];
+        }
+        $numberOfItems = 0;
+        foreach ($panierWithData as $item) {
+            $numberOfItems = $numberOfItems + $item['quantity'];
+        }
+        return $numberOfItems;
     }
     
     #[Route('/', name: 'home')]
