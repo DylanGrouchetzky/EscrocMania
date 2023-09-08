@@ -31,7 +31,7 @@
                         <p class="f-15r" style="font-weight:bold;">Note générale {{getNoteGeneral(product.id)}}/5</p>
                     {% endif %}
                     </div>
-                    <p>{{product.description}}</p>
+                    <p>{{product.description|raw}}</p>
                     <p class="f-2r">Prix : {{product.price / 100 }}€</p>
                     <div>
                         <div action="{{path('panier_add',{'id':product.id})}}" method="post" class="row">
