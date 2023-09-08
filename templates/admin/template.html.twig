@@ -3,10 +3,10 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}!{% endblock %}</title>
-        <link rel="stylesheet" href="{{asset('admin/css/style.css')}}">
-        <link rel="stylesheet" href="{{asset('admin/css/feather.css')}}">
-        <link rel="stylesheet" href="{{asset('admin/css/bootstrap.css')}}">
         {% block stylesheets %}
+            {{encore_entry_link_tags('featherCss')}}
+            {{encore_entry_link_tags('bootstrapCss')}}
+            {{encore_entry_link_tags('style')}}
         {% endblock %}
 
         {% block javascripts %}
@@ -14,7 +14,5 @@
     </head>
     <body>
         {% block body %}{% endblock %}
-        <link rel="stylesheet" href="{{asset('admin/js/htmx.min.js')}}">
-        <link rel="stylesheet" href="{{asset('admin/js/bootstrap.js')}}">
     </body>
 </html>
