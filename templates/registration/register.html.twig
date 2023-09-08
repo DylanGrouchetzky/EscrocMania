@@ -1,0 +1,43 @@
+{% extends "frontend/template.html.twig" %}
+{% block title %}Inscription{% endblock %}
+{% block body %}
+    <div class="row bg-hero-section" style="background-image:url('{{asset('img/bg-inscription.jpg')}}');background-position:bottom">
+        <div class="col-10 mx-auto d-flex justify-content-start align-items-end">
+            <div class="block-title">
+                <h1 class="title-hero-section">Inscription</h1>
+            </div>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-10 mx-auto">
+            <div class="row">
+                <div class="col-6">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                    <p>Veuillez rentrer les informations suivantes :</p>
+                    {{ form_errors(registrationForm) }}
+
+                        {{ form_start(registrationForm) }}
+                        {{form_row(registrationForm.firstName)}}
+                        {{form_row(registrationForm.lastName)}}
+                        {{form_row(registrationForm.pseudo)}}
+                        {{form_row(registrationForm.birthday)}}
+                        {{ form_row(registrationForm.email) }}
+                        {{ form_row(registrationForm.plainPassword, {
+                            label: 'Password'
+                        }) }}
+                        {{ form_row(registrationForm.agreeTerms) }}
+
+                        <button type="submit" class="btn">Register</button>
+                    {{ form_end(registrationForm) }}
+                </div>
+            <div class="col-6">
+                <img src="{{asset('img/login.webp')}}" alt="" class="img-login">
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
